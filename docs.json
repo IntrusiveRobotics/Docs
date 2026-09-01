@@ -39,95 +39,6 @@
     "type": "info"
   },
   "navigation": {
-    "tabs": [
-      {
-        "tab": "Firmware reference",
-        "icon": "code",
-        "groups": [
-          {
-            "group": "Architecture",
-            "pages": [
-              "reference/architecture",
-              "reference/boot-and-startup",
-              "reference/hardware-abstraction",
-              "reference/configuration-storage"
-            ]
-          },
-          {
-            "group": "Motor control",
-            "icon": "bolt",
-            "pages": [
-              "reference/motor/mc-interface",
-              "reference/motor/mcpwm-foc",
-              "reference/motor/foc-math",
-              "reference/motor/virtual-motor"
-            ]
-          },
-          {
-            "group": "Sensing",
-            "icon": "compass",
-            "pages": [
-              "reference/sensing/encoders",
-              "reference/sensing/imu",
-              "reference/sensing/bms"
-            ]
-          },
-          {
-            "group": "Communication",
-            "icon": "tower-broadcast",
-            "pages": [
-              "documentation/comm_can",
-              "reference/comm/usb",
-              "reference/comm/packet-protocol",
-              "reference/comm/commands",
-              "reference/comm/terminal",
-              "reference/comm/logging"
-            ]
-          },
-          {
-            "group": "Applications",
-            "icon": "layer-group",
-            "pages": [
-              "reference/applications/overview",
-              "reference/applications/ppm",
-              "reference/applications/adc",
-              "reference/applications/uart",
-              "reference/applications/custom-app"
-            ]
-          },
-          {
-            "group": "Scripting",
-            "icon": "scroll",
-            "pages": [
-              "reference/lispbm/overview",
-              "reference/lispbm/vesc-extensions",
-              "reference/lispbm/examples"
-            ]
-          }
-        ]
-      },
-      {
-        "tab": "Releases",
-        "icon": "tag",
-        "groups": [
-          {
-            "group": "Releases",
-            "pages": [
-              "releases/changelog",
-              "releases/upstream-changelog"
-            ]
-          },
-          {
-            "group": "Legal",
-            "pages": [
-              "legal/license",
-              "legal/provenance",
-              "legal/trademarks"
-            ]
-          }
-        ]
-      }
-    ],
     "global": {
       "anchors": [
         {
@@ -153,7 +64,16 @@
           "href": "https://docs.intrusiverobotics.com/products"
         }
       ]
-    }
+    },
+    "groups": [
+      {
+        "group": "Get started",
+        "icon": "rocket",
+        "pages": [
+          "guides/quickstart"
+        ]
+      }
+    ]
   },
   "navbar": {
     "links": [

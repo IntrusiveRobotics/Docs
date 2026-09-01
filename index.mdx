@@ -1,3 +1,58 @@
 ---
-title: "index"
+title: "Home"
+description: "Documentation for the Intrusive Robotics Delta — a 93 V, 70 A GaN motor controller running open-source VESC-compatible firmware."
 ---
+
+<div style={{ display: "flex", justifyContent: "center", padding: "1rem 0 2.5rem" }}>
+  <img src="/images/ir-logo-lockup-v4.png" alt="Intrusive Robotics" style={{ width: "100%", maxWidth: "440px" }} />
+</div>
+
+<Card title="Quickstart" icon="rocket" horizontal href="/guides/quickstart">
+  Power up, connect, and tune a Delta GaN ESC in VESC Tool.
+</Card>
+
+<Card title="Architecture" icon="sitemap" horizontal href="/reference/architecture">
+  Firmware structure, boot sequence, hardware abstraction, and configuration storage.
+</Card>
+
+<Card title="Motor control" icon="bolt" horizontal href="/reference/motor/mc-interface">
+  The FOC pipeline — `mc_interface`, `mcpwm_foc`, FOC math, and the virtual motor.
+</Card>
+
+<Card title="Sensing" icon="compass" horizontal href="/reference/sensing/encoders">
+  Encoders, IMU, and battery management inputs.
+</Card>
+
+<Card title="Communication" icon="tower-broadcast" horizontal href="/reference/comm/usb">
+  USB, CAN, the packet protocol, commands, terminal, and logging.
+</Card>
+
+<Card title="Applications" icon="layer-group" horizontal href="/reference/applications/overview">
+  Control sources — PPM, ADC, UART — and writing a custom app.
+</Card>
+
+<Card title="Scripting" icon="scroll" horizontal href="/reference/lispbm/overview">
+  LispBM scripting and the VESC extension set.
+</Card>
+
+<Card title="Releases" icon="tag" horizontal href="/releases/changelog">
+  Firmware changelog and upstream VESC release notes.
+</Card>
+
+<Card title="Legal" icon="scale-balanced" horizontal href="/legal/license">
+  GPL v3.0 license, provenance, and trademark notices.
+</Card>
+
+---
+
+<Card title="Intrusive Robotics" icon="globe" horizontal href="https://intrusiverobotics.com">
+  intrusiverobotics.com
+</Card>
+
+<Card title="Source on GitHub" icon="github" horizontal href="https://github.com/IntrusiveRobotics/Delta">
+  github.com/IntrusiveRobotics/Delta
+</Card>
+
+<Card title="Download the latest firmware" icon="download" horizontal href="https://github.com/IntrusiveRobotics/Delta/releases/latest">
+  Prebuilt binaries for the Delta.
+</Card>
