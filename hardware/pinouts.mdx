@@ -28,8 +28,8 @@ Connector and pad reference for the Delta GaN ESC. All four interfaces — servo
   <img src="/images/delta-pinout-edge.png" alt="Delta GaN ESC connector face: servo/PPM, CAN, USB-C and UART connectors" />
 </Frame>
 
-<Frame caption="Component side — UART, USB-C, serial marking, current sense and power terminals">
-  <img src="/images/delta-pinout-top.png" alt="Delta GaN ESC component side showing UART, USB-C, serial number, phase current-sense resistors, VIN+ and GND" />
+<Frame caption="Component side — UART, USB-C, serial marking, current shunts and power terminals">
+  <img src="/images/delta-pinout-top.png" alt="Delta GaN ESC component side showing UART, USB-C, serial number, phase current shunts, VIN+ and GND" />
 </Frame>
 
 <Frame caption="MCU side — logic, CAN and servo interface, phase pads and power terminals">
@@ -112,7 +112,7 @@ Configuration, telemetry, and firmware update.
 <Warning>
   **Solder motor leads to the phase pads on the MCU side only.**
 
-  The U / V / W features in the corresponding position on the **component side are the phase current-sense resistors, not solder pads.** Do not solder motor leads to them.
+  The U / V / W features in the corresponding position on the **component side are the phase current shunts, not solder pads.** Do not solder motor leads to them.
 </Warning>
 
 <Note>
