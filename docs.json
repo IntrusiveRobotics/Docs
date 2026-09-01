@@ -8,10 +8,13 @@
     "light": "#FF8A3D",
     "dark": "#CC5200"
   },
-  "favicon": "/images/favicon.png",
+  "favicon": {
+    "light": "/images/Favicon.png",
+    "dark": "/images/Favicon.png"
+  },
   "logo": {
-    "light": "/images/logo-light.svg",
-    "dark": "/images/logo-dark.svg",
+    "light": "/images/ir-logo-lockup-v4.png",
+    "dark": "/images/ir-logo-lockup-v4.png",
     "href": "https://intrusiverobotics.com"
   },
   "appearance": {
@@ -123,62 +126,6 @@
             ]
           }
         ]
-      },
-      {
-        "tab": "Products",
-        "products": [
-          {
-            "product": "Delta",
-            "tabs": [
-              {
-                "tab": "Guides",
-                "icon": "book-open",
-                "groups": [
-                  {
-                    "group": "Get started",
-                    "pages": [
-                      "index",
-                      "guides/quickstart",
-                      "guides/firmware-versioning"
-                    ]
-                  },
-                  {
-                    "group": "Hardware",
-                    "icon": "microchip",
-                    "pages": [
-                      "hardware/overview",
-                      "hardware/power-stage",
-                      "hardware/current-sensing",
-                      "hardware/flash-layout"
-                    ]
-                  },
-                  {
-                    "group": "Build and flash",
-                    "icon": "screwdriver-wrench",
-                    "pages": [
-                      "build/toolchain",
-                      "build/building",
-                      "build/flashing",
-                      "build/bootloader",
-                      "build/troubleshooting"
-                    ]
-                  },
-                  {
-                    "group": "Configuration",
-                    "icon": "sliders",
-                    "pages": [
-                      "configuration/vesc-tool",
-                      "configuration/motor-detection",
-                      "configuration/foc-tuning",
-                      "configuration/limits-and-faults",
-                      "configuration/board-config"
-                    ]
-                  }
-                ]
-              }
-            ]
-          }
-        ]
       }
     ],
     "global": {
@@ -197,6 +144,13 @@
           "anchor": "Upstream VESC project",
           "icon": "code-branch",
           "href": "https://github.com/vedderb/bldc"
+        }
+      ],
+      "tabs": [
+        {
+          "tab": "Products",
+          "icon": "1",
+          "href": "https://docs.intrusiverobotics.com/products"
         }
       ]
     }
