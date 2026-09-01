@@ -50,7 +50,7 @@ On the **Welcome & Wizards** page, click **Setup Input**.
 | **PPM** | RC receivers | Standard hobby RC pulse signal. Requires the min / max / centre calibration described above. |
 | **ADC** | Analogue throttles | Hall-effect or potentiometer throttles, wired to an analogue input. |
 | **UART** | Serial control from a host | For a companion computer or microcontroller driving the ESC directly. |
-| **CAN** | Multi-controller setups | Also how multiple Delta controllers coordinate on a shared bus. |
+| **CAN** | Multi-controller setups, flight controllers | How multiple Delta controllers coordinate on a shared bus. For flight-controller control over CAN, see [UAVCAN / DroneCAN](/guides/uavcan). |
 | **ADC\+UART** | Analogue throttle with serial supervision | Combines a physical throttle with a serial link. |
 
 <Note>
@@ -97,7 +97,7 @@ Verify before you trust it:
     Current limits, cutoffs, and sensorless tuning.
   </Card>
 
-  <Card title="Quickstart" icon="rocket" href="/guides/quickstart">
-    First-time setup and the FOC wizard.
+  <Card title="UAVCAN / DroneCAN" icon="network-wired" href="/guides/uavcan">
+    Running the Delta as a UAVCAN ESC node.
   </Card>
 </CardGroup>

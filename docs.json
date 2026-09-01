@@ -48,6 +48,7 @@
           "guides/quickstart",
           "guides/motor-tuning",
           "guides/input-configuration",
+          "guides/uavcan",
           {
             "group": "Firmware",
             "icon": "microchip",
@@ -111,6 +112,39 @@
           {
             "label": "Hardware pinouts",
             "href": "/hardware/pinouts"
+          },
+          {
+            "label": "Motor tuning",
+            "href": "/guides/motor-tuning"
+          },
+          {
+            "label": "Input configuration",
+            "href": "/guides/input-configuration"
+          },
+          {
+            "label": "UAVCAN / DroneCAN",
+            "href": "/guides/uavcan"
+          },
+          {
+            "label": "Hardware pinouts",
+            "href": "/hardware/pinouts"
+          }
+        ]
+      },
+      {
+        "header": "Firmware",
+        "items": [
+          {
+            "label": "Upgrading",
+            "href": "/firmware/upgrading"
+          },
+          {
+            "label": "Experimental",
+            "href": "/firmware/experimental"
+          },
+          {
+            "label": "Latest release",
+            "href": "https://github.com/IntrusiveRobotics/Delta/releases/latest"
           }
         ]
       },

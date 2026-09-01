@@ -1,0 +1,169 @@
+---
+title: "UAVCAN / DroneCAN"
+sidebarTitle: "UAVCAN"
+description: "Run the Delta GaN ESC as a UAVCAN v0 (DroneCAN) node — CAN mode, node ID, ESC index, raw command modes, and telemetry."
+icon: "network-wired"
+keywords:
+  - "UAVCAN"
+  - "DroneCAN"
+  - "CAN"
+  - "ESC index"
+  - "node ID"
+  - "RawCommand"
+  - "RPMCommand"
+  - "PX4"
+  - "ArduPilot"
+  - "libcanard"
+---
+
+The Delta can act as a **UAVCAN ESC node**, taking throttle commands from a flight controller over CAN instead of PPM, ADC, or UART.
+
+<Warning>
+  **This is UAVCAN v0, now called DroneCAN.** It is _not_ UAVCAN v1 / Cyphal.
+
+  The two are different, incompatible protocols that share a name. The Delta firmware implements v0 via `libcanard`, which is what PX4 and ArduPilot mean when they say "DroneCAN" or "UAVCAN" in their ESC configuration.
+</Warning>
+
+## Enabling UAVCAN mode
+
+In VESC Tool, under **App Settings → General → CAN**, set **CAN Mode** to `UAVCAN`.
+
+| CAN Mode | Behaviour |
+| --- | --- |
+| `VESC` | Default. VESC-native CAN — multi-controller setups, CAN forwarding from VESC Tool. |
+| `UAVCAN` | The controller becomes a UAVCAN ESC node and takes commands from the bus. |
+| `Comm Bridge` | Bridges the CAN bus to the serial link. |
+
+<Warning>
+  Switching to `UAVCAN` changes what the CAN bus is used for. VESC-native CAN behaviour — including CAN forwarding, which is how VESC Tool reaches a second controller over the bus — no longer applies in the same way. Configure each controller over USB before putting it on a UAVCAN bus.
+</Warning>
+
+## Core settings
+
+| Setting | Range | Default | What it does |
+| --- | --- | --- | --- |
+| **CAN Baud Rate** | 10K – 1M | 500K | Must match every other node on the bus. |
+| **Controller ID** | 0 – 253 | 0 | The **UAVCAN node ID**. Must be unique on the bus. |
+| **UAVCAN ESC Index** | 0 – 255 | 0 | Which slot of the command array this controller responds to. |
+| **UAVCAN Raw Mode** | see below | Current | How `RawCommand` is interpreted. |
+| **UAVCAN Raw RPM Max** | — | — | Full-scale RPM, used only in RPM raw mode. |
+| **UAVCAN Status Current Mode** | Motor / Input | Motor | Which current is reported in ESC status. |
+
+<Note>
+  **Node ID and ESC index are different things.** The node ID identifies the controller on the bus. The ESC index selects which element of the throttle array it obeys.
+
+  On a multi-motor vehicle each controller needs **both** a unique node ID and the ESC index matching its motor position in the flight controller's motor ordering.
+</Note>
+
+## Raw command modes
+
+The flight controller broadcasts `uavcan.equipment.esc.RawCommand` — an array of setpoints, one per ESC. The Delta reads the element at its configured ESC index and scales it by 8192, giving a value from **−1.0 to 1.0**.
+
+What it does with that value depends on the raw mode:
+
+| Raw mode | Behaviour |
+| --- | --- |
+| **Current** | Sets relative motor current across the full range. Negative values drive the motor in reverse. |
+| **Current, no reverse brake** | Positive sets relative current; negative applies **braking** current instead of reversing. The usual choice for propellers. |
+| **Duty** | Sets duty cycle directly. |
+| **RPM** | Closed-loop speed control at `value x UAVCAN Raw RPM Max`. Requires Raw RPM Max to be set. |
+
+<Warning>
+  On a propeller-driven aircraft, **Current** mode will spin the motor backwards on a negative command. Use **Current, no reverse brake** unless you specifically want reversing.
+</Warning>
+
+The Delta also accepts `uavcan.equipment.esc.RPMCommand`, which takes the RPM value at its ESC index directly rather than as a scaled fraction.
+
+## Telemetry
+
+The Delta publishes `uavcan.equipment.esc.Status`, tagged with its configured ESC index.
+
+**UAVCAN Status Current Mode** selects which current appears in that message:
+
+- **Motor** — current through the motor phases
+- **Input** — current drawn from the battery
+
+Pick to match what your flight controller expects, otherwise logged current will be consistently wrong.
+
+Status broadcast rates are configurable through the UAVCAN parameter service (`can_status_rate_1`, default 50; `can_status_rate_2`, default 5).
+
+## Supported UAVCAN interfaces
+
+| Interface | Direction |
+| --- | --- |
+| `uavcan.equipment.esc.RawCommand` | Subscribed |
+| `uavcan.equipment.esc.RPMCommand` | Subscribed |
+| `uavcan.equipment.esc.Status` | Published |
+| `uavcan.protocol.NodeStatus` | Published |
+| `uavcan.protocol.GetNodeInfo` | Served |
+| `uavcan.protocol.param.GetSet` | Served |
+| `uavcan.protocol.RestartNode` | Served |
+
+Firmware update over UAVCAN is also implemented.
+
+### Parameters exposed over the bus
+
+These can be read and written with any UAVCAN parameter tool, without connecting VESC Tool:
+
+| Parameter | Range | Default |
+| --- | --- | --- |
+| `controller_id` | 0 – 253 | 0 |
+| `can_esc_index` | 0 – 255 | 0 |
+| `can_baud_rate` | 0 – 8 | 500K |
+| `can_status_rate_1` | 0 – 1000 | 50 |
+| `can_status_rate_2` | 0 – 1000 | 5 |
+| `can_status_msgs_r1` | 0 – 255 | 0 |
+| `can_status_msgs_r2` | 0 – 255 | 0 |
+| `ctl_dir` | 0 – 1 | 0 |
+
+## Bringing up a bus
+
+<Warning>
+  Props off. A wrong ESC index means the wrong motor spins, and you want to discover that on the bench.
+</Warning>
+
+<Steps>
+  <Step title="Configure each controller over USB first">
+    Set CAN Mode to `UAVCAN`, assign a unique Controller ID, set the ESC index for that motor position, and pick the raw mode. Write and verify before moving to the next controller.
+  </Step>
+  <Step title="Match baud rates">
+    Every node on the bus must agree. 500K is the default and the usual choice.
+  </Step>
+  <Step title="Wire the bus">
+    CAN H, CAN L, and a common ground. Termination matters — a UAVCAN bus needs 120 Ω at each physical end.
+  </Step>
+  <Step title="Confirm enumeration">
+    Each controller should appear in your flight controller's UAVCAN node list with the node ID you assigned. A missing node is a wiring, baud, or duplicate-ID problem.
+  </Step>
+  <Step title="Verify motor mapping one at a time">
+    Command each motor position individually and confirm the expected motor responds. Do not skip this.
+  </Step>
+  <Step title="Check telemetry">
+    Confirm ESC status is arriving from every node, with RPM and current that track what the motor is doing.
+  </Step>
+</Steps>
+
+## Troubleshooting
+
+| Symptom | Check |
+| --- | --- |
+| Node does not appear on the bus | CAN Mode set to `UAVCAN` and written? Baud rate matching? CAN H/L not swapped? Bus terminated? |
+| Two nodes conflict or drop out | Duplicate Controller ID. Each node needs a unique ID. |
+| Wrong motor responds | ESC index does not match the flight controller's motor ordering. |
+| No response to throttle, node visible | ESC index higher than the length of the command array the flight controller sends. |
+| Motor reverses instead of braking | Raw mode is `Current`. Switch to `Current, no reverse brake`. |
+| RPM mode does nothing | `UAVCAN Raw RPM Max` not set — full scale is zero. |
+| Reported current looks wrong | Status Current Mode is set to Motor where the flight controller expects Input, or the reverse. |
+| VESC Tool cannot reach a second controller over CAN | Expected in UAVCAN mode. Connect over USB. |
+
+## Related
+
+<CardGroup cols={2}>
+  <Card title="Input configuration" icon="gamepad" href="/guides/input-configuration">
+    PPM, ADC, UART, and the Setup Input wizard.
+  </Card>
+
+  <Card title="Motor tuning and parameters" icon="sliders" href="/guides/motor-tuning">
+    Current limits and cutoffs — set these before commanding from a bus.
+  </Card>
+</CardGroup>
