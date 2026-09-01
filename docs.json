@@ -65,7 +65,8 @@
         }
       ]
     },
-    "groups": [
+    "pages": [
+      "index",
       {
         "group": "Get started",
         "icon": "rocket",
