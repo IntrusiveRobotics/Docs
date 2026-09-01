@@ -1,7 +1,7 @@
 ---
 title: "Hardware pinouts"
 sidebarTitle: "Hardware pinouts"
-description: "Connector and pin assignments for the Delta GaN ESC. Pin data is pending — this page is not yet usable for wiring."
+description: "Connector and pad reference for the Delta GaN ESC — servo/PPM, CAN, UART, USB-C, phase pads, and power terminals."
 icon: "diagram-project"
 keywords:
   - "pinout"
@@ -10,98 +10,136 @@ keywords:
   - "phase"
   - "CAN"
   - "PPM"
-  - "ADC"
+  - "servo"
   - "UART"
+  - "JST-SH"
   - "hardware"
 ---
 
-<Warning>
-  **Pin data pending — do not wire from this page.**
-
-  Every pin assignment below is a placeholder (`TBD`). Nothing here has been verified against the Delta hardware. Wiring from placeholder data will damage the controller, the motor, or both.
-
-  Until this page is filled in, take pin assignments from the board silkscreen or the schematic.
-</Warning>
-
-This page documents the physical connectors on the Delta GaN ESC (REV A) and what each pin carries.
-
-## Power and phase
+Connector and pad reference for the Delta GaN ESC. All four interfaces — servo/PPM, CAN, UART, and USB-C — sit on the same edge of the board.
 
 <Warning>
-  High current and high voltage. The Delta accepts up to **93 V continuous** and delivers up to **70 A continuous** with forced airflow. Never make or break these connections under load, and use an anti-spark connector on the battery side.
+  **Check the pin order against the board before wiring.** Signal order reverses depending on which side you are looking from — see [reading the pin order](#reading-the-pin-order) below. Confirm against the silkscreen with the board in front of you.
 </Warning>
 
-### Battery input
+## Board views
 
-| Terminal | Signal | Rating | Notes |
-| --- | --- | --- | --- |
-| TBD | Battery \+ | TBD | TBD |
-| TBD | Battery − | TBD | TBD |
+<Frame caption="Connector face — signal and interface edge, viewed from the connector end">
+  <img src="/images/delta-pinout-edge.png" alt="Delta GaN ESC connector face: servo/PPM, CAN, USB-C and UART connectors" />
+</Frame>
 
-### Phase output
+<Frame caption="Component side — UART, USB-C, serial marking, phase pads and power terminals">
+  <img src="/images/delta-pinout-top.png" alt="Delta GaN ESC component side showing UART, USB-C, serial number, motor phase pads, VIN+ and GND" />
+</Frame>
 
-| Terminal | Signal | Rating | Notes |
-| --- | --- | --- | --- |
-| TBD | Phase A | TBD | TBD |
-| TBD | Phase B | TBD | TBD |
-| TBD | Phase C | TBD | TBD |
+<Frame caption="MCU side — logic, CAN and servo interface, phase pads and power terminals">
+  <img src="/images/delta-pinout-bottom.png" alt="Delta GaN ESC MCU side showing CAN and servo connectors, motor phase pads, VIN+ and GND" />
+</Frame>
 
-<Note>
-  Phase order determines direction of rotation. Prefer flipping the direction toggle in Motor Settings over swapping phase wires — see [motor tuning](/guides/motor-tuning).
-</Note>
+## Reading the pin order
+
+Each connector is listed twice below — once as seen from the **connector face**, and once as seen from the **board side** the connector is accessible from. The two are the same physical connector read in opposite directions.
+
+<Warning>
+  The two reference views **number pins from opposite ends**. Rather than trust an absolute "pin 1", identify the connector's orientation on your board and match the *signal sequence* to the corresponding view below.
+
+  The reliable landmark: on both the CAN and UART connectors, **GND sits at one end and the 3.3 V or NC pin at the other.**
+</Warning>
 
 ## Signal connectors
 
-### Control input connector
+### Servo / PPM
 
-Carries the throttle and control signals configured in [input configuration](/guides/input-configuration).
+2-pin JST-SH 1.0. Accessible from the **MCU side**. This is the PPM input configured in [input configuration](/guides/input-configuration).
 
-| Pin | Signal | Direction | Voltage / limit | Notes |
-| --- | --- | --- | --- | --- |
-| TBD | PPM signal | Input | TBD | TBD |
-| TBD | ADC input | Input | TBD | TBD |
-| TBD | \+5 V out | Output | TBD | Max current TBD |
-| TBD | GND | — | — | TBD |
-
-<Warning>
-  The 5 V rail's current budget is `TBD`. Do not power a receiver, companion computer, or servo from it until that figure is confirmed.
-</Warning>
-
-### UART
-
-| Pin | Signal | Direction | Voltage level | Notes |
-| --- | --- | --- | --- | --- |
-| TBD | TX | Output | TBD | TBD |
-| TBD | RX | Input | TBD | TBD |
-| TBD | GND | — | — | TBD |
+| View | Direction | Order |
+| --- | --- | --- |
+| Connector face | left → right | GND, SIGNAL / PPM |
+| MCU side | top → bottom | SIGNAL / PPM, GND |
 
 ### CAN
 
-| Pin | Signal | Notes |
+4-pin JST-SH 1.0. Accessible from the **MCU side**. Used for [UAVCAN / DroneCAN](/guides/uavcan) and VESC-native CAN.
+
+| View | Direction | Order |
 | --- | --- | --- |
-| TBD | CAN H | TBD |
-| TBD | CAN L | TBD |
-| TBD | GND | TBD |
+| Connector face | left → right | GND, CANL, CANH, 3.3 V |
+| MCU side | top → bottom | 3.3 V, CANH, CANL, GND |
 
 <Note>
-  Termination: `TBD` — whether the Delta includes an on-board 120 Ω terminating resistor, and whether it is switchable, is not yet documented.
+  The CAN connector carries a **3.3 V** rail, not 5 V. The current available on it is not specified — do not power a receiver or companion computer from this pin without confirming the budget.
+
+  Bus termination is also not documented. A CAN bus needs 120 Ω at each physical end; confirm whether the Delta provides it before relying on it.
 </Note>
 
-## USB
+### UART
 
-USB-C, **data only**. The Delta is not powered over USB and will not enumerate until DC power is applied to the main input terminals. Use a USB A → USB C cable. See the [quickstart](/guides/quickstart).
+4-pin, **3.3 V logic**. Accessible from the **component side**.
 
-## Mechanical
+| View | Direction | Order |
+| --- | --- | --- |
+| Connector face | left → right | GND, TX / SCL, RX / SDA, Ex — NC |
+| Component side | top → bottom | Ex — NC, RX / SDA, TX / SCL, GND |
 
-| Property | Value |
+<Note>
+  The data pins are **shared between UART and I2C** — TX doubles as SCL, RX as SDA. Which function is active depends on firmware configuration; the pins cannot serve both at once.
+
+  `Ex` is not connected.
+</Note>
+
+<Warning>
+  UART is **3.3 V logic**. Do not connect a 5 V device directly without level shifting.
+</Warning>
+
+### USB-C
+
+Configuration, telemetry, and firmware update. Accessible from the **component side**.
+
+<Warning>
+  **USB is data only — the Delta is not powered over USB.** It will not boot or enumerate until DC power is applied to the main terminals. Use a USB A → USB C cable. See the [quickstart](/guides/quickstart).
+</Warning>
+
+## Power and phase
+
+Large solder pads, exposed on both sides of the board.
+
+<Warning>
+  High voltage and high current. Up to **93 V continuous** input and **70 A continuous** output with forced airflow. Never make or break these connections under load, and use an anti-spark connector on the battery side.
+</Warning>
+
+| Pad | Signal | Notes |
+| --- | --- | --- |
+| **VIN +** | Battery positive | 3–12S |
+| **GND** | Battery negative | Main current return |
+| **U** | Phase U | Solder motor leads direct to pad |
+| **V** | Phase V | Solder motor leads direct to pad |
+| **W** | Phase W | Solder motor leads direct to pad |
+
+<Note>
+  Phase order determines direction of rotation. Prefer flipping the direction toggle in Motor Settings over swapping phase leads — see [motor tuning](/guides/motor-tuning).
+</Note>
+
+## Serial number
+
+Each board carries a unit ID on the component side, next to the UART connector (for example `0007`). **Quote this for support and RMA.**
+
+## Not yet documented
+
+| Item | Status |
 | --- | --- |
-| Board dimensions | TBD |
-| Mounting hole pattern | TBD |
-| Heatsink envelope | TBD |
-| Mass | TBD |
+| 3.3 V rail current budget | Not specified |
+| CAN bus termination | Not specified |
+| Board dimensions and mounting pattern | Not specified |
+| Debug / programming header | A pad row is present on the MCU side; assignments not documented here |
 
----
+## Related
 
-<Info>
-  **Filling this in:** replace each `TBD` with the verified value, then remove the warning at the top of the page. Every figure should be traceable to the schematic or a measured board — not inferred.
-</Info>
+<CardGroup cols={2}>
+  <Card title="Input configuration" icon="gamepad" href="/guides/input-configuration">
+    PPM, ADC, UART, and CAN control sources.
+  </Card>
+
+  <Card title="UAVCAN / DroneCAN" icon="network-wired" href="/guides/uavcan">
+    Running the Delta as a UAVCAN ESC node.
+  </Card>
+</CardGroup>
