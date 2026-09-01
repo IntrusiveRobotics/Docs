@@ -51,7 +51,9 @@
           {
             "group": "Firmware",
             "icon": "microchip",
-            "pages": []
+            "pages": [
+              "firmware/upgrading"
+            ]
           },
           "hardware/pinouts",
           {
