@@ -101,25 +101,33 @@
             "href": "/guides/quickstart"
           },
           {
-            "label": "Firmware reference",
-            "href": "/reference/architecture"
+            "label": "Motor tuning",
+            "href": "/guides/motor-tuning"
           },
           {
-            "label": "CAN bus",
-            "href": "/documentation/comm_can"
+            "label": "Input configuration",
+            "href": "/guides/input-configuration"
+          },
+          {
+            "label": "Hardware pinouts",
+            "href": "/hardware/pinouts"
           }
         ]
       },
       {
-        "header": "Releases",
+        "header": "Firmware",
         "items": [
           {
-            "label": "Changelog",
-            "href": "/releases/changelog"
+            "label": "Upgrading",
+            "href": "/firmware/upgrading"
           },
           {
-            "label": "Upstream changelog",
-            "href": "/releases/upstream-changelog"
+            "label": "Experimental",
+            "href": "/firmware/experimental"
+          },
+          {
+            "label": "Latest release",
+            "href": "https://github.com/IntrusiveRobotics/Delta/releases/latest"
           }
         ]
       },
