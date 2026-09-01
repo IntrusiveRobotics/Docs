@@ -28,8 +28,8 @@ Connector and pad reference for the Delta GaN ESC. All four interfaces — servo
   <img src="/images/delta-pinout-edge.png" alt="Delta GaN ESC connector face: servo/PPM, CAN, USB-C and UART connectors" />
 </Frame>
 
-<Frame caption="Component side — UART, USB-C, serial marking, phase pads and power terminals">
-  <img src="/images/delta-pinout-top.png" alt="Delta GaN ESC component side showing UART, USB-C, serial number, motor phase pads, VIN+ and GND" />
+<Frame caption="Component side — UART, USB-C, serial marking, current sense and power terminals">
+  <img src="/images/delta-pinout-top.png" alt="Delta GaN ESC component side showing UART, USB-C, serial number, phase current-sense resistors, VIN+ and GND" />
 </Frame>
 
 <Frame caption="MCU side — logic, CAN and servo interface, phase pads and power terminals">
@@ -97,19 +97,23 @@ Configuration, telemetry, and firmware update.
 
 ## Power and phase
 
-Large solder pads, exposed on both sides of the board.
-
 <Warning>
   High voltage and high current. Up to **93 V continuous** input and **70 A continuous** output with forced airflow. Never make or break these connections under load, and use an anti-spark connector on the battery side.
 </Warning>
 
-| Pad | Signal | Notes |
-| --- | --- | --- |
-| **VIN +** | Battery positive | 3–12S |
-| **GND** | Battery negative | Main current return |
-| **U** | Phase U | Solder motor leads direct to pad |
-| **V** | Phase V | Solder motor leads direct to pad |
-| **W** | Phase W | Solder motor leads direct to pad |
+| Pad | Signal | Location | Notes |
+| --- | --- | --- | --- |
+| **VIN +** | Battery positive | Both sides | 3–12S |
+| **GND** | Battery negative | Both sides | Main current return |
+| **U** | Phase U | MCU side | Solder motor leads direct to pad |
+| **V** | Phase V | MCU side | Solder motor leads direct to pad |
+| **W** | Phase W | MCU side | Solder motor leads direct to pad |
+
+<Warning>
+  **Solder motor leads to the phase pads on the MCU side only.**
+
+  The U / V / W features in the corresponding position on the **component side are the phase current-sense resistors, not solder pads.** Do not solder motor leads to them.
+</Warning>
 
 <Note>
   Phase order determines direction of rotation. Prefer flipping the direction toggle in Motor Settings over swapping phase leads — see [motor tuning](/guides/motor-tuning).
