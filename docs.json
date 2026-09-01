@@ -48,6 +48,11 @@
           "guides/quickstart",
           "guides/motor-tuning",
           "guides/input-configuration",
+          {
+            "group": "Firmware",
+            "icon": "microchip",
+            "pages": []
+          },
           "hardware/pinouts",
           {
             "group": "Legal",
