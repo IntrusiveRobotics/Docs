@@ -1,0 +1,110 @@
+---
+title: "Firmware upgrades"
+sidebarTitle: "Upgrading"
+description: "How to update Delta GaN ESC firmware safely, including version pairing with VESC Tool and recovering from a failed update."
+icon: "arrow-up-from-bracket"
+keywords:
+  - "firmware"
+  - "upgrade"
+  - "update"
+  - "flash"
+  - "VESC Tool"
+  - "bootloader"
+  - "version"
+---
+
+How to move a Delta GaN ESC to a new firmware build without losing your configuration or bricking the board.
+
+<Warning>
+  **Never disconnect or cut power during a firmware update.** An interrupted write can leave the controller unable to boot. Make sure the DC supply is stable and the USB cable will not be knocked out before you start.
+</Warning>
+
+## Before you start
+
+<Steps>
+  <Step title="Back up your configuration">
+    In VESC Tool, save both configurations to XML:
+
+    - **XML → Save Motor Configuration**
+    - **XML → Save App Configuration**
+
+    An upgrade can reset parameters to defaults. Restoring a saved XML takes seconds; re-deriving a tuned configuration does not.
+  </Step>
+  <Step title="Note your current versions">
+    The status bar shows the connected hardware and firmware version. Write down what you are coming _from_, so you can go back if the new build misbehaves.
+  </Step>
+  <Step title="Check VESC Tool version pairing">
+    If Intrusive Robotics has specified a VESC Tool version for the target firmware, **use that version**. Mismatched tool and firmware versions can produce misread parameters or a failed update.
+  </Step>
+  <Step title="Power the board properly">
+    DC power on the main input terminals, then USB A → USB C. The Delta is not powered over USB and will not enumerate on USB alone.
+  </Step>
+</Steps>
+
+## Where to get firmware
+
+<Card title="Latest release" icon="download" href="https://github.com/IntrusiveRobotics/Delta/releases/latest">
+  Prebuilt Delta firmware binaries on GitHub.
+</Card>
+
+VESC Tool also ships bundled firmware. On a firmware mismatch warning, the bundled build matching your hardware is usually the right choice.
+
+## Performing the update
+
+<Steps>
+  <Step title="Connect">
+    Serial interface, correct port, click Connect. Confirm the status bar shows the board.
+  </Step>
+  <Step title="Open the Firmware page">
+    In VESC Tool's left toolbar.
+  </Step>
+  <Step title="Select the firmware">
+    Either the bundled build matching your hardware, or a `.bin` you downloaded. **Confirm it is the Delta build** — flashing firmware for different hardware is how boards get bricked.
+  </Step>
+  <Step title="Flash and wait">
+    Start the update and leave it alone. Do not unplug USB, cut DC power, or close VESC Tool. The controller reboots on its own when finished.
+  </Step>
+  <Step title="Reconnect and verify">
+    Reconnect and confirm the status bar reports the new firmware version.
+  </Step>
+</Steps>
+
+## After the update
+
+<Steps>
+  <Step title="Check your parameters survived">
+    Read the motor and app configurations back and compare against your saved XML. Pay particular attention to current limits, voltage cutoffs, and temperature limits.
+  </Step>
+  <Step title="Restore from XML if needed">
+    **XML → Load Motor Configuration**, then write it to the controller.
+  </Step>
+  <Step title="Re-verify before loading the motor">
+    Open Realtime Data, run the motor up gently, and confirm the Fault field stays clear — exactly as you would after first setup. See [motor tuning](/guides/motor-tuning).
+  </Step>
+</Steps>
+
+<Note>
+  A major firmware change can alter how detected motor parameters are interpreted. If low-speed behaviour changes after an upgrade, re-run detection rather than assuming the old values still apply.
+</Note>
+
+## Troubleshooting
+
+| Symptom | Check |
+| --- | --- |
+| Firmware mismatch warning on connect | Expected when tool and firmware differ. Flash the bundled firmware matching your hardware. |
+| Update fails partway | Cable quality and USB hub power. Use a direct port, USB A → USB C, and retry. |
+| Board will not connect after an update | Confirm DC power is applied. Try a different cable and port before assuming the worst. |
+| Parameters look wrong after upgrading | Tool/firmware version mismatch can misread parameters. Match versions, then restore from your saved XML. |
+| Motor behaves differently after upgrading | Re-run detection and re-check limits before applying load. |
+
+## Related
+
+<CardGroup cols={2}>
+  <Card title="Experimental firmware" icon="flask" href="/firmware/experimental">
+    Pre-release builds and what to expect from them.
+  </Card>
+
+  <Card title="Motor tuning and parameters" icon="sliders" href="/guides/motor-tuning">
+    Re-verifying limits after an upgrade.
+  </Card>
+</CardGroup>

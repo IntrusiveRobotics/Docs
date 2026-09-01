@@ -1,0 +1,107 @@
+---
+title: "Hardware pinouts"
+sidebarTitle: "Hardware pinouts"
+description: "Connector and pin assignments for the Delta GaN ESC. Pin data is pending — this page is not yet usable for wiring."
+icon: "diagram-project"
+keywords:
+  - "pinout"
+  - "connector"
+  - "wiring"
+  - "phase"
+  - "CAN"
+  - "PPM"
+  - "ADC"
+  - "UART"
+  - "hardware"
+---
+
+<Warning>
+  **Pin data pending — do not wire from this page.**
+
+  Every pin assignment below is a placeholder (`TBD`). Nothing here has been verified against the Delta hardware. Wiring from placeholder data will damage the controller, the motor, or both.
+
+  Until this page is filled in, take pin assignments from the board silkscreen or the schematic.
+</Warning>
+
+This page documents the physical connectors on the Delta GaN ESC (REV A) and what each pin carries.
+
+## Power and phase
+
+<Warning>
+  High current and high voltage. The Delta accepts up to **93 V continuous** and delivers up to **70 A continuous** with forced airflow. Never make or break these connections under load, and use an anti-spark connector on the battery side.
+</Warning>
+
+### Battery input
+
+| Terminal | Signal | Rating | Notes |
+| --- | --- | --- | --- |
+| TBD | Battery \+ | TBD | TBD |
+| TBD | Battery − | TBD | TBD |
+
+### Phase output
+
+| Terminal | Signal | Rating | Notes |
+| --- | --- | --- | --- |
+| TBD | Phase A | TBD | TBD |
+| TBD | Phase B | TBD | TBD |
+| TBD | Phase C | TBD | TBD |
+
+<Note>
+  Phase order determines direction of rotation. Prefer flipping the direction toggle in Motor Settings over swapping phase wires — see [motor tuning](/guides/motor-tuning).
+</Note>
+
+## Signal connectors
+
+### Control input connector
+
+Carries the throttle and control signals configured in [input configuration](/guides/input-configuration).
+
+| Pin | Signal | Direction | Voltage / limit | Notes |
+| --- | --- | --- | --- | --- |
+| TBD | PPM signal | Input | TBD | TBD |
+| TBD | ADC input | Input | TBD | TBD |
+| TBD | \+5 V out | Output | TBD | Max current TBD |
+| TBD | GND | — | — | TBD |
+
+<Warning>
+  The 5 V rail's current budget is `TBD`. Do not power a receiver, companion computer, or servo from it until that figure is confirmed.
+</Warning>
+
+### UART
+
+| Pin | Signal | Direction | Voltage level | Notes |
+| --- | --- | --- | --- | --- |
+| TBD | TX | Output | TBD | TBD |
+| TBD | RX | Input | TBD | TBD |
+| TBD | GND | — | — | TBD |
+
+### CAN
+
+| Pin | Signal | Notes |
+| --- | --- | --- |
+| TBD | CAN H | TBD |
+| TBD | CAN L | TBD |
+| TBD | GND | TBD |
+
+<Note>
+  Termination: `TBD` — whether the Delta includes an on-board 120 Ω terminating resistor, and whether it is switchable, is not yet documented.
+</Note>
+
+## USB
+
+USB-C, **data only**. The Delta is not powered over USB and will not enumerate until DC power is applied to the main input terminals. Use a USB A → USB C cable. See the [quickstart](/guides/quickstart).
+
+## Mechanical
+
+| Property | Value |
+| --- | --- |
+| Board dimensions | TBD |
+| Mounting hole pattern | TBD |
+| Heatsink envelope | TBD |
+| Mass | TBD |
+
+---
+
+<Info>
+  **Filling this in:** replace each `TBD` with the verified value, then remove the warning at the top of the page. Every figure should be traceable to the schematic or a measured board — not inferred.
+</Info>

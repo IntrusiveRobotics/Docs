@@ -1,0 +1,129 @@
+---
+title: "Experimental firmware"
+sidebarTitle: "Experimental"
+description: "Pre-release and experimental Delta GaN ESC firmware builds — what they are, the risks, and how to run and roll back from one."
+icon: "flask"
+keywords:
+  - "experimental"
+  - "beta"
+  - "pre-release"
+  - "firmware"
+  - "testing"
+  - "rollback"
+  - "unstable"
+---
+
+Experimental builds carry changes that are not yet in a stable release — new features, performance work, or fixes that need field testing before they ship broadly.
+
+<Warning>
+  **Experimental firmware is not covered by the guarantees of a stable release.** It may contain regressions in motor control, thermal protection, or fault handling. Run it only on hardware you can afford to damage, and never as the first thing you try on a new build.
+
+  Do not run experimental firmware in any application where a fault could injure someone.
+</Warning>
+
+## When to use it
+
+<CardGroup cols={2}>
+  <Card title="Reasonable" icon="circle-check">
+    Reproducing a bug on request, testing a fix that affects you, or evaluating a feature on a bench setup.
+  </Card>
+
+  <Card title="Not reasonable" icon="circle-xmark">
+    Production hardware, anything carrying a person or payload, or a build you cannot easily recover.
+  </Card>
+</CardGroup>
+
+## Before you flash
+
+<Steps>
+  <Step title="Save your working configuration">
+    **XML → Save Motor Configuration** and **XML → Save App Configuration**. Experimental builds are the most likely to reset or reinterpret parameters.
+  </Step>
+  <Step title="Record the stable version you are on">
+    You need to know exactly what to go back to — the firmware version and the matching VESC Tool version.
+  </Step>
+  <Step title="Download the rollback binary first">
+    Get the stable build on disk _before_ you flash the experimental one, not while troubleshooting a board that no longer behaves.
+  </Step>
+  <Step title="Reduce your limits">
+    Lower current and temperature limits below your normal working values for the first run. If fault handling has regressed, conservative limits are what catches it.
+  </Step>
+</Steps>
+
+## Running an experimental build
+
+The flashing procedure is identical to a normal update — see [firmware upgrades](/firmware/upgrading). The difference is entirely in what you do afterwards.
+
+<Steps>
+  <Step title="Bench test first, unloaded">
+    Motor unloaded and free to spin. Propellers, gears, belts, and wheels off.
+  </Step>
+  <Step title="Watch Realtime Data throughout">
+    Current, duty cycle, temperature, and the Fault field. Do not look away during the first run-up.
+  </Step>
+  <Step title="Exercise the failure paths deliberately">
+    Confirm voltage cutoffs, temperature cutoffs, and loss-of-signal behaviour still work. These are exactly what an experimental build might break, and exactly what you will not notice under normal operation.
+  </Step>
+  <Step title="Only then apply load">
+    And increase it gradually, not in one step.
+  </Step>
+</Steps>
+
+## Rolling back
+
+<Steps>
+  <Step title="Flash the stable binary">
+    Same procedure as any update. Do not cut power mid-write.
+  </Step>
+  <Step title="Restore your saved configuration">
+    **XML → Load Motor Configuration**, then write to the controller. Do not assume parameters carried across the version change intact.
+  </Step>
+  <Step title="Re-verify">
+    Check limits and run the motor up gently before returning to normal use.
+  </Step>
+</Steps>
+
+<Note>
+  If a board will not connect after an experimental build, work through the connection checks in the [quickstart](/guides/quickstart) before concluding the firmware is at fault — DC power and cable problems look identical to a bad flash.
+</Note>
+
+## Reporting problems
+
+Experimental builds exist to collect exactly this information. A useful report includes:
+
+- The experimental build identifier and the VESC Tool version you used
+- The stable version you came from
+- Motor and controller configuration — attach the saved XML
+- What you observed, and what you expected instead
+- Any fault codes from the Fault field
+- Whether it reproduces after a power cycle, and whether it reproduces on a stable build
+
+<CardGroup cols={2}>
+  <Card title="Report an issue" icon="github" href="https://github.com/IntrusiveRobotics/Delta/issues">
+    github.com/IntrusiveRobotics/Delta/issues
+  </Card>
+
+  <Card title="Contact Intrusive Robotics" icon="envelope" href="mailto:info@intrusiverobotics.com">
+    [info@intrusiverobotics.com](mailto:info@intrusiverobotics.com)
+  </Card>
+</CardGroup>
+
+## Available builds
+
+<Info>
+  **No experimental builds are currently listed here.**
+
+  When one is published, this section should record its identifier, what it changes, the VESC Tool version it pairs with, known issues, and the stable build to roll back to.
+</Info>
+
+## Related
+
+<CardGroup cols={2}>
+  <Card title="Firmware upgrades" icon="arrow-up-from-bracket" href="/firmware/upgrading">
+    The standard update procedure and version pairing.
+  </Card>
+
+  <Card title="Motor tuning and parameters" icon="sliders" href="/guides/motor-tuning">
+    Re-verifying limits after a firmware change.
+  </Card>
+</CardGroup>

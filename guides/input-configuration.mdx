@@ -1,0 +1,103 @@
+---
+title: "Input configuration"
+sidebarTitle: "Input configuration"
+description: "Configure the Delta GaN ESC control source — PPM, ADC, UART, CAN, or ADC+UART — with the Setup Input wizard."
+icon: "gamepad"
+keywords:
+  - "input"
+  - "PPM"
+  - "ADC"
+  - "UART"
+  - "CAN"
+  - "throttle"
+  - "RC receiver"
+  - "calibration"
+  - "Setup Input"
+---
+
+Once the motor is detected and tuned, the Delta still needs to know **where its throttle commands come from**. That is what the input configuration sets.
+
+<Info>
+  Run the FOC setup wizard first. Configuring an input before the motor is detected means your first throttle input drives an untuned motor. See the [quickstart](/guides/quickstart) and [motor tuning](/guides/motor-tuning).
+</Info>
+
+## Running the Setup Input wizard
+
+On the **Welcome & Wizards** page, click **Setup Input**.
+
+<Warning>
+  Keep the motor unloaded and clear during input setup. Calibration involves moving the throttle through its full range, and a miscalibrated input can command full throttle unexpectedly.
+</Warning>
+
+<Steps>
+  <Step title="Choose the control source">
+    PPM, ADC, UART, CAN, or ADC\+UART. See the comparison below.
+  </Step>
+  <Step title="Calibrate">
+    Follow the wizard's calibration steps for the source you picked.
+
+    For **PPM**, you move the stick through its full range so the tool can capture minimum, maximum, and centre.
+  </Step>
+  <Step title="Write and verify">
+    Confirm the write succeeded, then verify behaviour in Realtime Data before loading the motor.
+  </Step>
+</Steps>
+
+## Choosing a control source
+
+| Source | Use it for | Notes |
+| --- | --- | --- |
+| **PPM** | RC receivers | Standard hobby RC pulse signal. Requires the min / max / centre calibration described above. |
+| **ADC** | Analogue throttles | Hall-effect or potentiometer throttles, wired to an analogue input. |
+| **UART** | Serial control from a host | For a companion computer or microcontroller driving the ESC directly. |
+| **CAN** | Multi-controller setups | Also how multiple Delta controllers coordinate on a shared bus. |
+| **ADC\+UART** | Analogue throttle with serial supervision | Combines a physical throttle with a serial link. |
+
+<Note>
+  Pin assignments for these inputs are hardware-specific. See the hardware pinouts page for which physical pins carry PPM, ADC, UART, and CAN on the Delta.
+</Note>
+
+## After calibration
+
+Verify before you trust it:
+
+<Steps>
+  <Step title="Confirm the input range">
+    Open **Realtime Data** and move the throttle through its full travel. The commanded value should track smoothly from zero to full with no jumps or dead spots.
+  </Step>
+  <Step title="Confirm neutral is actually neutral">
+    At rest, the commanded current or duty should be zero. A non-zero neutral means the calibration centre is wrong — re-run it.
+  </Step>
+  <Step title="Confirm direction">
+    Forward on the throttle should turn the motor the way you expect. If not, flip the direction toggle in Motor Settings rather than swapping phase wires.
+  </Step>
+  <Step title="Test the failure case">
+    Disconnect or power down the transmitter or host and confirm the controller returns to a safe state. Do this with the motor unloaded, before it matters.
+  </Step>
+</Steps>
+
+<Warning>
+  **Check the loss-of-signal behaviour before first real use.** What the controller does when the input disappears — receiver out of range, host crash, cable pulled — is the difference between coasting to a stop and continuing at the last commanded throttle.
+</Warning>
+
+## Troubleshooting
+
+| Symptom | Check |
+| --- | --- |
+| No response to throttle | Correct control source selected and written? Calibration completed? Signal wire and ground both connected? |
+| Motor creeps at neutral | Calibration centre is off — re-run calibration. |
+| Throttle range feels compressed | Min/max captured over less than the stick's full travel. Re-run and move through the complete range. |
+| Direction is reversed | Flip the direction toggle in Motor Settings; do not swap phase wires. |
+| Input drops intermittently | Wiring and connector quality; on shared DC bus setups, check for ground loops. |
+
+## Related
+
+<CardGroup cols={2}>
+  <Card title="Motor tuning and parameters" icon="sliders" href="/guides/motor-tuning">
+    Current limits, cutoffs, and sensorless tuning.
+  </Card>
+
+  <Card title="Quickstart" icon="rocket" href="/guides/quickstart">
+    First-time setup and the FOC wizard.
+  </Card>
+</CardGroup>
