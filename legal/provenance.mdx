@@ -1,0 +1,42 @@
+---
+title: "provenance"
+sidebarTitle: "Provenance"
+description: "What the Delta firmware derives from, and how it relates to the upstream VESC project."
+---
+
+The Delta firmware is a derivative of the open source [VESC project](https://github.com/vedderb/bldc) by Benjamin Vedder, adapted by Intrusive Robotics for the Delta GaN ESC hardware.
+
+## Build
+
+| Property | Value |
+| --- | --- |
+| Firmware version | {{firmwareVersion}} |
+| Upstream VESC base | {{vescBase}} |
+| Build target | `{{buildTarget}}` |
+| MCU | {{mcu}} |
+
+## Relationship to upstream
+
+<CardGroup cols={2}>
+  <Card title="Upstream source" icon="code-branch" href="https://github.com/vedderb/bldc">
+    `vedderb/bldc` — the VESC firmware the Delta derives from.
+  </Card>
+
+  <Card title="Delta source" icon="github" href="https://github.com/IntrusiveRobotics/Delta">
+    `IntrusiveRobotics/Delta` — this firmware, including hardware support for the Delta.
+  </Card>
+</CardGroup>
+
+The Delta firmware adds hardware support for the Delta GaN ESC — the GaN gate drive stage, thermal management for the 70 A rating, and board-specific pin and peripheral configuration. It remains compatible with VESC Tool for configuration, tuning, and firmware operations.
+
+<Note>
+  The Delta is **sensorless only**. There is no encoder input on this hardware, so encoder-related functionality present in upstream VESC does not apply.
+</Note>
+
+## Licensing
+
+Because the firmware derives from a GPL v3 work, it is distributed under GPL v3. See [license](/legal/license).
+
+## Trademarks
+
+VESC® is a registered trademark. The Delta is compatible with VESC software but is not a VESC-branded product and is not affiliated with or endorsed by Benjamin Vedder or the VESC project. See [trademarks](/legal/trademarks).
