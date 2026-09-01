@@ -46,75 +46,7 @@
         "icon": "microchip",
         "pages": [
           "guides/quickstart",
-          {
-            "group": "Architecture",
-            "icon": "sitemap",
-            "pages": [
-              "reference/architecture",
-              "reference/boot-and-startup",
-              "reference/hardware-abstraction",
-              "reference/configuration-storage"
-            ]
-          },
-          {
-            "group": "Motor control",
-            "icon": "bolt",
-            "pages": [
-              "reference/motor/mc-interface",
-              "reference/motor/mcpwm-foc",
-              "reference/motor/foc-math",
-              "reference/motor/virtual-motor"
-            ]
-          },
-          {
-            "group": "Sensing",
-            "icon": "compass",
-            "pages": [
-              "reference/sensing/encoders",
-              "reference/sensing/imu",
-              "reference/sensing/bms"
-            ]
-          },
-          {
-            "group": "Communication",
-            "icon": "tower-broadcast",
-            "pages": [
-              "documentation/comm_can",
-              "reference/comm/usb",
-              "reference/comm/packet-protocol",
-              "reference/comm/commands",
-              "reference/comm/terminal",
-              "reference/comm/logging"
-            ]
-          },
-          {
-            "group": "Applications",
-            "icon": "layer-group",
-            "pages": [
-              "reference/applications/overview",
-              "reference/applications/ppm",
-              "reference/applications/adc",
-              "reference/applications/uart",
-              "reference/applications/custom-app"
-            ]
-          },
-          {
-            "group": "Scripting",
-            "icon": "scroll",
-            "pages": [
-              "reference/lispbm/overview",
-              "reference/lispbm/vesc-extensions",
-              "reference/lispbm/examples"
-            ]
-          },
-          {
-            "group": "Releases",
-            "icon": "tag",
-            "pages": [
-              "releases/changelog",
-              "releases/upstream-changelog"
-            ]
-          },
+          "guides/motor-tuning",
           {
             "group": "Legal",
             "icon": "scale-balanced",

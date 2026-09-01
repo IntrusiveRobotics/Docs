@@ -1,0 +1,175 @@
+---
+title: "Motor tuning and parameters"
+sidebarTitle: "Motor tuning"
+description: "Detection values, current and voltage limits, thermal cutoffs, and sensorless FOC tuning for the Delta GaN ESC."
+icon: "sliders"
+keywords:
+  - "motor tuning"
+  - "FOC"
+  - "parameters"
+  - "current limits"
+  - "ERPM"
+  - "zero vector frequency"
+  - "sensorless"
+  - "motor resistance"
+---
+
+This page covers what to set after the FOC setup wizard has run, and how to tune sensorless behaviour. If you have not run the wizard yet, start with the [quickstart](/guides/quickstart).
+
+<Warning>
+  Every procedure here assumes the motor is **unloaded and free to spin**, or that you are testing deliberately and know what the load will do. Remove propellers, gears, belts, and wheels before any detection or re-detection.
+</Warning>
+
+## Delta limits
+
+These are the hardware ceilings. Every parameter below has to sit inside them.
+
+| Parameter | Value |
+| --- | --- |
+| Max input voltage (continuous) | 93 V |
+| Max input voltage (transient, ≤100 ms) | 100 V |
+| Recommended battery pack | 3S – 12S |
+| Max continuous current | 70 A — requires continuous forced airflow |
+| Recommended zero vector frequency | 30 – 60 kHz |
+
+<Warning>
+  **70 A is an airflow-dependent number.** Without continuous forced airflow over the heatsinks, usable continuous current is substantially lower and the controller will throttle or fault. Set your current limits against the cooling you actually have, not against the datasheet maximum.
+</Warning>
+
+## Reading the detection results
+
+The wizard's detection step measures three values. Check them before applying.
+
+| Value | What it is | Sanity check |
+| --- | --- | --- |
+| R | Winding resistance, plus cable, connector, and switch resistance | Positive, non-zero. Expect it to read **high** — see [sensorless tuning](#sensorless-tuning) below. |
+| L | Winding inductance | Positive, non-zero. Zero or negative means detection failed. |
+| λ | Flux linkage | Positive, non-zero. Measured while the motor spins up and coasts down. |
+
+<Warning>
+  If any value comes back **zero, negative, or wildly implausible, do not apply it.** Re-run detection at a lower voltage, or enter known motor parameters manually from the motor's datasheet.
+</Warning>
+
+## Motor Settings → General
+
+The core limits. Work through all of them — the wizard seeds them from a size class, not from your actual build.
+
+<AccordionGroup>
+  <Accordion title="Motor current max / min" icon="bolt">
+    The torque-producing current limit.
+
+    Use **the lower of** the Delta's 70 A rating and your motor's own rating. Without forced airflow, set this well below 70 A.
+
+    The `min` value is braking current. Set it to what the motor and drivetrain can take.
+  </Accordion>
+
+  <Accordion title="Absolute maximum current" icon="triangle-exclamation">
+    The hard fault threshold — the controller shuts down when current crosses it.
+
+    Keep it **above** your working motor current max so normal operation never trips it, but **inside** the hardware limit so it still protects the board. It is a backstop, not a working limit.
+  </Accordion>
+
+  <Accordion title="Battery current max / min" icon="battery-full">
+    What the controller draws from, and pushes back into, the pack.
+
+    The `min` value is **regen**. Set it to what your pack can actually absorb — a full pack has very little headroom. Excess regen drives the bus voltage up toward the 93 V ceiling.
+  </Accordion>
+
+  <Accordion title="Voltage cutoff start / end" icon="gauge-low">
+    Low-voltage protection, derived from your S count.
+
+    **Confirm the S count matches your actual pack.** A wrong S count sets the cutoff incorrectly and will over-discharge the pack. Size against fully charged voltage, not nominal — 12S is 50.4 V full.
+
+    On higher-voltage packs, also check what the bus does under hard braking.
+  </Accordion>
+
+  <Accordion title="Temperature limits" icon="temperature-high">
+    Controller cutoff start and end.
+
+    These are the thermal safety net for the 70 A rating. **Set them conservatively rather than at the maximum** — they are what stands between a blocked air intake and dead hardware.
+  </Accordion>
+
+  <Accordion title="Max ERPM" icon="gauge-high">
+    Leave headroom below what the motor can mechanically handle. This is a mechanical limit, not an electrical one — check the motor's rating, not the controller's.
+  </Accordion>
+</AccordionGroup>
+
+## FOC → Advanced
+
+**Zero vector frequency** — set to **30–60 kHz** for the Delta.
+
+## Sensorless tuning
+
+The Delta runs sensorless FOC only. There is no encoder input on this hardware, so rotor position is estimated from back-EMF.
+
+<Note>
+  Below roughly **10% of max RPM** the estimate degrades. Expect weak or rough startup torque and possible stutter on hard acceleration from a stop. Once the motor is moving this is a non-issue — which is what this controller is built for.
+
+  If your application needs strong torque from zero RPM, this is the wrong controller for it.
+</Note>
+
+### Lowering FOC resistance to reduce low-RPM stutter
+
+Detection usually reports R high, because it includes cable, connector, and switch resistance on top of the winding itself. The sensorless observer leans heavily on R at low RPM, so an inflated value degrades position tracking exactly where it is already weakest.
+
+<Steps>
+  <Step title="Note the detected value">
+    Write it down before changing anything, so you can return to it.
+  </Step>
+  <Step title="Halve it">
+    In **Motor Settings → FOC → General**, set **Motor Resistance** to half the detected value. Half is the usual starting point, not a rule.
+  </Step>
+  <Step title="Re-test low-speed behaviour">
+    Check whether the stutter improves. Adjust from there if needed.
+  </Step>
+  <Step title="Re-test under load">
+    Not just free-spinning. A value that smooths low-RPM stutter unloaded can misbehave when torque is applied.
+  </Step>
+  <Step title="Re-test at operating temperature">
+    Winding resistance rises as the motor heats, so a value tuned cold moves further from actual R once hot.
+  </Step>
+  <Step title="Watch for new instability">
+    At higher RPM or during hard acceleration. If it appears, you have gone too far — go back up.
+  </Step>
+</Steps>
+
+If reducing R does not resolve it, the startup parameters on the **FOC → Sensorless** tab are the next place to look:
+
+- **Openloop ERPM** — the speed at which the controller hands over from forced commutation to the observer
+- **Openloop hysteresis** — the margin around that handover, to stop it chattering back and forth
+- **Openloop time** — how long forced commutation runs before handover
+
+Change one at a time and re-test between each.
+
+## Validating a configuration
+
+<Steps>
+  <Step title="Write the configuration">
+    Confirm the write succeeded in the status bar.
+  </Step>
+  <Step title="Open Realtime Data">
+    Run the motor up gently while watching current, duty cycle, and temperature.
+  </Step>
+  <Step title="Check the Fault field">
+    It should stay clear throughout. Any fault means stop and diagnose before loading the motor.
+  </Step>
+  <Step title="Back it up">
+    Save the working configuration via **XML → Save Motor Configuration**. Do this before you start experimenting, not after.
+  </Step>
+</Steps>
+
+<Tip>
+  Keep a saved XML per motor and per build. Recovering a known-good configuration is far faster than re-deriving one.
+</Tip>
+
+## Related
+
+<CardGroup cols={2}>
+  <Card title="Quickstart" icon="rocket" href="/guides/quickstart">
+    First-time setup, wiring, and the FOC wizard.
+  </Card>
+
+  <Card title="Input configuration" icon="gamepad" href="/guides/input-configuration">
+    PPM, ADC, UART, and CAN control sources.
+  </Card>
+</CardGroup>
