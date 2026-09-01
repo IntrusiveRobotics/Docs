@@ -1,7 +1,7 @@
 ---
 title: "UAVCAN / DroneCAN"
 sidebarTitle: "UAVCAN"
-description: "Run the Delta GaN ESC as a UAVCAN v0 (DroneCAN) node — CAN mode, node ID, ESC index, raw command modes, and telemetry."
+description: "Run the Delta GaN ESC as a UAVCAN v0 (DroneCAN) node with PX4 or ArduPilot — CAN mode, node ID, ESC index, raw command modes, and telemetry."
 icon: "network-wired"
 keywords:
   - "UAVCAN"
@@ -18,10 +18,14 @@ keywords:
 
 The Delta can act as a **UAVCAN ESC node**, taking throttle commands from a flight controller over CAN instead of PPM, ADC, or UART.
 
+<Info>
+  **Works with both PX4 and ArduPilot.** The Delta implements UAVCAN v0 (DroneCAN) — the CAN ESC protocol both autopilots use. Either one can command the Delta and read its telemetry over the bus.
+</Info>
+
 <Warning>
   **This is UAVCAN v0, now called DroneCAN.** It is _not_ UAVCAN v1 / Cyphal.
 
-  The two are different, incompatible protocols that share a name. The Delta firmware implements v0 via `libcanard`, which is what PX4 and ArduPilot mean when they say "DroneCAN" or "UAVCAN" in their ESC configuration.
+  The two are different, incompatible protocols that share a name. The Delta firmware implements v0 via `libcanard`. **Both PX4 and ArduPilot use v0**, so this is the correct and compatible protocol for either — it is what they mean when their ESC configuration says "DroneCAN" or "UAVCAN".
 </Warning>
 
 ## Enabling UAVCAN mode
