@@ -67,7 +67,7 @@ Each connector is listed twice below — once as seen from the **connector face*
 | MCU side | top → bottom | 3.3 V, CANH, CANL, GND |
 
 <Note>
-  The CAN connector carries a **3.3 V** rail, not 5 V. The current available on it is not specified — do not power a receiver or companion computer from this pin without confirming the budget.
+  The CAN connector carries a **3.3 V** rail, not 5 V. It is not a general-purpose supply — see [auxiliary power budget](#auxiliary-power-budget) before drawing anything from it.
 
   Bus termination is also not documented. A CAN bus needs 120 Ω at each physical end; confirm whether the Delta provides it before relying on it.
 </Note>
@@ -119,6 +119,29 @@ Large solder pads, exposed on both sides of the board.
   Phase order determines direction of rotation. Prefer flipping the direction toggle in Motor Settings over swapping phase leads — see [motor tuning](/guides/motor-tuning).
 </Note>
 
+## Auxiliary power budget
+
+The Delta's internal rails are supplied by an **LM5163** buck regulator rated at **500 mA total**. That budget covers the controller's own logic and gate drive as well as anything you draw off the board.
+
+<Warning>
+  **Do not draw more than 100 mA from any output.** The board's auxiliary power capability is limited, and loads above 100 mA are discouraged.
+
+  The 500 mA figure is the regulator's total capability, **not** headroom available to you. The controller's own consumption comes out of it first.
+</Warning>
+
+Practically, this means the Delta should not be treated as a power source for anything substantial:
+
+| Load | Guidance |
+| --- | --- |
+| CAN transceiver on a peer node | Generally fine, well under 100 mA |
+| RC receiver | Give it its own supply |
+| Companion computer | Give it its own supply |
+| Servos | Never — give them their own supply |
+
+<Note>
+  Browning out the 3.3 V rail takes the controller's logic down with it. On a moving vehicle that means losing motor control, so keep external draw conservative rather than close to the limit.
+</Note>
+
 ## Serial number
 
 Each board carries a unit ID on the component side, next to the UART connector (for example `0007`). **Quote this for support and RMA.**
@@ -127,7 +150,6 @@ Each board carries a unit ID on the component side, next to the UART connector (
 
 | Item | Status |
 | --- | --- |
-| 3.3 V rail current budget | Not specified |
 | CAN bus termination | Not specified |
 | Board dimensions and mounting pattern | Not specified |
 | Debug / programming header | A pad row is present on the MCU side; assignments not documented here |
