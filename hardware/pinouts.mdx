@@ -67,7 +67,7 @@ Each connector is listed twice below — once as seen from the **connector face*
 | MCU side | top → bottom | 3.3 V, CANH, CANL, GND |
 
 <Note>
-  The CAN connector carries a **3.3 V** rail, not 5 V. The current available on it is not specified — do not power a receiver or companion computer from this pin without confirming the budget.
+  The CAN connector carries a **3.3 V** rail, not 5 V. It is not intended to power external devices — see [auxiliary power](#auxiliary-power).
 
   Bus termination is also not documented. A CAN bus needs 120 Ω at each physical end; confirm whether the Delta provides it before relying on it.
 </Note>
@@ -119,15 +119,36 @@ Large solder pads, exposed on both sides of the board.
   Phase order determines direction of rotation. Prefer flipping the direction toggle in Motor Settings over swapping phase leads — see [motor tuning](/guides/motor-tuning).
 </Note>
 
+## Auxiliary power
+
+The Delta's low-voltage rails are sized for the controller's own logic and gate drive. They are not a general-purpose supply, and auxiliary capacity is limited.
+
+<Warning>
+  **Do not power external devices through the board.** Receivers, companion computers, servos, lights, and any other load should be powered from their own supply, not from the Delta.
+
+  Anything drawn from the board's rails comes out of the budget the controller needs to run.
+</Warning>
+
+<Note>
+  Browning out the low-voltage rail takes the controller's logic down with it. On a moving vehicle that means losing motor control.
+</Note>
+
 ## Serial number
 
 Each board carries a unit ID on the component side, next to the UART connector (for example `0007`). **Quote this for support and RMA.**
+
+### NDAA compliance
+
+Serial numbers prefixed with **`N`** — for example `N0007` — identify **NDAA-compliant** boards.
+
+<Note>
+  If NDAA compliance is a requirement for your programme, check the prefix on the physical board. The marking on the unit is the authoritative record.
+</Note>
 
 ## Not yet documented
 
 | Item | Status |
 | --- | --- |
-| 3.3 V rail current budget | Not specified |
 | CAN bus termination | Not specified |
 | Board dimensions and mounting pattern | Not specified |
 | Debug / programming header | A pad row is present on the MCU side; assignments not documented here |
