@@ -134,7 +134,7 @@ These can be read and written with any UAVCAN parameter tool, without connecting
     Every node on the bus must agree. 500K is the default and the usual choice.
   </Step>
   <Step title="Wire the bus">
-    CAN H, CAN L, and a common ground. Termination matters — a UAVCAN bus needs 120 Ω at each physical end.
+    CAN H, CAN L, and a common ground — **leave the Delta's 3.3 V pin unconnected**. Termination matters: a UAVCAN bus needs 120 Ω at each physical end.
   </Step>
   <Step title="Confirm enumeration">
     Each controller should appear in your flight controller's UAVCAN node list with the node ID you assigned. A missing node is a wiring, baud, or duplicate-ID problem.
