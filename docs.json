@@ -39,11 +39,12 @@
     "type": "info"
   },
   "navigation": {
-    "tabs": [
+    "groups": [
       {
-        "tab": "Firmware reference",
-        "icon": "code",
-        "groups": [
+        "group": "Delta GaN ESC",
+        "icon": "microchip",
+        "pages": [
+          "guides/quickstart",
           {
             "group": "Architecture",
             "pages": [
@@ -62,98 +63,66 @@
               "reference/motor/foc-math",
               "reference/motor/virtual-motor"
             ]
-          },
-          {
-            "group": "Sensing",
-            "icon": "compass",
-            "pages": [
-              "reference/sensing/encoders",
-              "reference/sensing/imu",
-              "reference/sensing/bms"
-            ]
-          },
-          {
-            "group": "Communication",
-            "icon": "tower-broadcast",
-            "pages": [
-              "documentation/comm_can",
-              "reference/comm/usb",
-              "reference/comm/packet-protocol",
-              "reference/comm/commands",
-              "reference/comm/terminal",
-              "reference/comm/logging"
-            ]
-          },
-          {
-            "group": "Applications",
-            "icon": "layer-group",
-            "pages": [
-              "reference/applications/overview",
-              "reference/applications/ppm",
-              "reference/applications/adc",
-              "reference/applications/uart",
-              "reference/applications/custom-app"
-            ]
-          },
-          {
-            "group": "Scripting",
-            "icon": "scroll",
-            "pages": [
-              "reference/lispbm/overview",
-              "reference/lispbm/vesc-extensions",
-              "reference/lispbm/examples"
-            ]
           }
         ]
       },
       {
-        "tab": "Releases",
-        "icon": "tag",
-        "groups": [
-          {
-            "group": "Releases",
-            "pages": [
-              "releases/changelog",
-              "releases/upstream-changelog"
-            ]
-          },
-          {
-            "group": "Legal",
-            "pages": [
-              "legal/license",
-              "legal/provenance",
-              "legal/trademarks"
-            ]
-          }
+        "group": "Sensing",
+        "icon": "compass",
+        "pages": [
+          "reference/sensing/encoders",
+          "reference/sensing/imu",
+          "reference/sensing/bms"
+        ]
+      },
+      {
+        "group": "Communication",
+        "icon": "tower-broadcast",
+        "pages": [
+          "documentation/comm_can",
+          "reference/comm/usb",
+          "reference/comm/packet-protocol",
+          "reference/comm/commands",
+          "reference/comm/terminal",
+          "reference/comm/logging"
+        ]
+      },
+      {
+        "group": "Applications",
+        "icon": "layer-group",
+        "pages": [
+          "reference/applications/overview",
+          "reference/applications/ppm",
+          "reference/applications/adc",
+          "reference/applications/uart",
+          "reference/applications/custom-app"
+        ]
+      },
+      {
+        "group": "Scripting",
+        "icon": "scroll",
+        "pages": [
+          "reference/lispbm/overview",
+          "reference/lispbm/vesc-extensions",
+          "reference/lispbm/examples"
+        ]
+      },
+      {
+        "group": "Legal",
+        "pages": [
+          "legal/license",
+          "legal/provenance",
+          "legal/trademarks"
+        ]
+      },
+      {
+        "group": "Releases",
+        "pages": [
+          "releases/changelog",
+          "releases/upstream-changelog"
         ]
       }
-    ],
-    "global": {
-      "anchors": [
-        {
-          "anchor": "GitHub",
-          "icon": "github",
-          "href": "https://github.com/IntrusiveRobotics/Delta"
-        },
-        {
-          "anchor": "Latest release",
-          "icon": "download",
-          "href": "https://github.com/IntrusiveRobotics/Delta/releases/latest"
-        },
-        {
-          "anchor": "Upstream VESC project",
-          "icon": "code-branch",
-          "href": "https://github.com/vedderb/bldc"
-        }
-      ],
-      "tabs": [
-        {
-          "tab": "Products",
-          "icon": "1",
-          "href": "https://docs.intrusiverobotics.com/products"
-        }
-      ]
-    }
+    ]
   },
   "navbar": {
     "links": [

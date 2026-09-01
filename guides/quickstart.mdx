@@ -1,0 +1,325 @@
+---
+title: "Delta GaN ESC quickstart"
+sidebarTitle: "Quickstart"
+description: "Get a Delta GaN ESC installed, powered, connected to VESC Tool, and tuned for sensorless FOC."
+icon: "rocket"
+keywords:
+  - "Delta"
+  - "GaN"
+  - "ESC"
+  - "VESC Tool"
+  - "FOC"
+  - "quickstart"
+  - "sensorless"
+  - "heatsink"
+---
+
+The Delta is a high-voltage GaN motor controller running open source, VESC-compatible firmware. This guide takes you from an unopened board to a tuned, running motor.
+
+<Info>
+  This guide covers **REV A** hardware. The Delta runs **sensorless FOC only** — there is no encoder input on this board.
+</Info>
+
+<CardGroup cols={4}>
+  <Card title="93 V" icon="bolt">
+    Max input
+  </Card>
+
+  <Card title="70 A" icon="gauge-high">
+    Max continuous
+  </Card>
+
+  <Card title="3–16S" icon="battery-full">
+    Battery
+  </Card>
+
+  <Card title="30–60 kHz" icon="wave-square">
+    Zero vector freq
+  </Card>
+</CardGroup>
+
+## 1. Before you start
+
+### What you need
+
+| Item | Notes |
+| --- | --- |
+| USB A → USB C cable | Recommended. Data-capable, not charge-only. |
+| DC power source | Battery or bench supply within the Delta's rated input range. |
+| Motor | Three phase wires. Sensorless operation only — no encoder input. |
+| VESC Tool | Desktop only (Windows / macOS / Linux). The mobile app is **not** compatible. See [Where to get VESC Tool](#4-where-to-get-vesc-tool). |
+
+### Specifications
+
+| Parameter | Value |
+| --- | --- |
+| Max input voltage (continuous) | 93 V |
+| Max input voltage (transient, ≤100 ms) | 100 V |
+| Recommended battery pack | 3S – 16S |
+| Max continuous current | 70 A — requires continuous forced airflow |
+| Recommended zero vector frequency | 30 – 60 kHz |
+
+<Warning>
+  **The 70 A rating requires airflow.**
+
+  70 A assumes continuous forced airflow over the heatsinks. Without it, usable continuous current is substantially lower and the controller will throttle or fault.
+
+  Install the heatsinks before running meaningful current, and set the controller temperature cutoffs conservatively. Bench testing without airflow is fine for detection and low-current checks only.
+</Warning>
+
+<Note>
+  **Battery pack selection**
+
+  3S – 16S. Size against **fully charged** voltage, not nominal — 16S is 67.2 V full.
+
+  Higher voltages are possible but leave less margin for inductive spikes, which come mainly from battery lead inductance, regenerative braking, and hot-plugging. Keep power leads short and thick, use an anti-spark connector, and limit regen current.
+
+  Below 3S the controller may not power up or hold a stable voltage under load.
+</Note>
+
+## 2. Heatsink installation
+
+Install the heatsinks **before applying power** — the 70 A rating depends on them.
+
+The supplied heatsinks have a small channel cut into the underside to clear the capacitors. Orient each sink so this channel sits over the capacitors; it will then sit flat against the board. If the sink rocks, sits proud, or bears on a capacitor, it is oriented wrong.
+
+<Warning>
+  The heatsinks mount with thermal tape, so placement is effectively **one-shot** — the adhesive does not survive being peeled off and repositioned. Dry-fit and confirm orientation before removing the liner.
+</Warning>
+
+<Steps>
+  <Step title="Power down">
+    Board unpowered and disconnected.
+  </Step>
+  <Step title="Clean the mating surfaces">
+    Remove any residue, flux, or debris. The tape needs a clean surface to bond.
+  </Step>
+  <Step title="Dry-fit the heatsink">
+    Capacitor channel over the capacitors; fin channels running **parallel** to your airflow path, not across it. Confirm it sits flat.
+  </Step>
+  <Step title="Peel and place">
+    Peel the liner and place the heatsink in the position you just confirmed. Do not slide it into place.
+  </Step>
+  <Step title="Press down firmly">
+    Press evenly across the whole sink for several seconds to wet out the adhesive. Even pressure matters — voids in the bond become hot spots.
+  </Step>
+  <Step title="Check clearances">
+    Confirm the heatsink does not contact any adjacent conductor or exposed pad.
+  </Step>
+</Steps>
+
+Once installed, check that the intake is unobstructed in the final enclosure and watch controller temperature in Realtime Data during first load testing.
+
+## 3. Power and USB — read this first
+
+<Warning>
+  **The Delta is not powered over USB.**
+
+  USB provides data only. The controller will not boot, will not enumerate, and will not appear in VESC Tool until DC power is applied to the main input terminals.
+
+  If VESC Tool shows no serial port, check that the Delta actually has DC power before troubleshooting the cable.
+</Warning>
+
+A **USB A → USB C** cable is strongly recommended.
+
+## 4. Where to get VESC Tool
+
+VESC Tool is distributed through the VESC Project store, which trips people up the first time.
+
+<Steps>
+  <Step title="Create an account">
+    Sign up at [vesc-project.com](https://vesc-project.com/vesc_tool) and log in.
+  </Step>
+  <Step title="Scroll to the bottom of the VESC Tool page">
+    The download options sit below the description.
+  </Step>
+  <Step title="Choose an edition">
+    **VESC Tool Free is €0.00 and functionally identical to the paid tiers.** The Bronze / Silver / Gold / Platinum versions are donations to the project that grant a profile badge. All editions are the same software.
+  </Step>
+  <Step title="Complete the (free) checkout">
+    Add it to the cart and check out.
+  </Step>
+  <Step title="Open Purchased Files">
+    In the top-right menu. Your download links are there.
+  </Step>
+  <Step title="Download and run">
+    Grab the archive for your OS, extract it, and run the executable. No installer on most platforms.
+  </Step>
+</Steps>
+
+<Warning>
+  **Mobile is not supported.** The VESC Tool mobile app (Android / iOS) is not compatible with the Delta. Use the desktop application for all setup, configuration, and firmware operations.
+</Warning>
+
+<Note>
+  **Firmware pairing:** if Intrusive Robotics has specified a VESC Tool version for your Delta's firmware, use that version. Mismatched tool and firmware versions can produce misread parameters or a failed update.
+</Note>
+
+Source is at [github.com/vedderb/vesc\_tool](https://github.com/vedderb/vesc_tool) (GPL v3). Only binaries from vesc-project.com are official releases.
+
+## 5. Connecting
+
+<Steps>
+  <Step title="Power the Delta">
+    Apply DC input first, then plug in USB A → USB C.
+  </Step>
+  <Step title="Launch VESC Tool">
+    Desktop application only.
+  </Step>
+  <Step title="Set the interface to Serial">
+    In the Connection panel.
+  </Step>
+  <Step title="Pick the port">
+    Choose it from the dropdown. Hit the refresh icon if it's empty.
+  </Step>
+  <Step title="Click Connect">
+    The status bar shows the connected hardware and firmware version once the link is up.
+  </Step>
+</Steps>
+
+<AccordionGroup>
+  <Accordion title="No port showing?" icon="circle-question">
+    - Is DC power actually applied?
+    - Is it a data cable, not charge-only?
+    - Are you on a C-to-C cable? Switch to A-to-C.
+    - **Windows:** check Device Manager for the device under Ports, or as an unknown device.
+  </Accordion>
+
+  <Accordion title="Firmware mismatch warning on connect?" icon="triangle-exclamation">
+    Go to the Firmware page, pick the bundled firmware matching your hardware, and flash it.
+
+    **Do not disconnect or cut power mid-update.**
+  </Accordion>
+</AccordionGroup>
+
+## 6. FOC setup wizard
+
+<Warning>
+  **Safety check before you begin**
+
+  - The motor must be **completely unloaded and free to spin**. Detection spins it up under its own control.
+  - Remove propellers, gears, belts, and wheels. No exceptions.
+  - Clamp or bolt the motor down. It will produce real torque during detection.
+  - Keep hands, cables, and tools clear of the motor and phase leads.
+  - The motor will beep and jerk during resistance and inductance measurement. This is normal.
+</Warning>
+
+Open the wizard from the **Welcome & Wizards** page — click **Setup Motors FOC**. It is also reachable from the wizard icon in the left toolbar.
+
+<Steps>
+  <Step title="Warning and confirmation">
+    Read it, confirm the motor is unloaded, continue.
+  </Step>
+  <Step title="Battery / power source setup">
+    Enter your pack configuration:
+
+    - Battery type (Li-ion, LiPo, LiFePO₄, or custom)
+    - Cells in series (S count) — 3S to 16S recommended
+    - Battery capacity in Ah
+
+    This sets the voltage cutoff start and end points. On a bench supply, choose **custom** and set cutoffs manually below your supply voltage.
+  </Step>
+  <Step title="Motor selection">
+    Pick the closest size class — mini outrunner, small, medium, large outrunner, direct drive, and so on. This seeds the current limits and the detection parameters. You can refine current limits after the wizard finishes.
+  </Step>
+  <Step title="Motor detection">
+    Click the detection button and let it run. It will:
+
+    - Measure resistance and inductance (R and L) — audible beeping, motor does not rotate
+    - Measure flux linkage (λ) — the motor spins up and coasts down
+
+    Review the reported R, L, and λ values. **If any come back as zero, negative, or wildly implausible, do not apply them** — see [Troubleshooting](#7-troubleshooting).
+
+    Click **Apply** to write the detected parameters.
+  </Step>
+  <Step title="Sensor setup — select Sensorless">
+    The Delta **does not support motor encoders**. Skip any encoder option the wizard presents — AS5047, ABI, SinCos, or similar. There is no encoder input on this hardware.
+
+    Select **Sensorless**. Nothing further to configure.
+  </Step>
+  <Step title="Direction">
+    The wizard offers a direction test. Spin the motor forward and confirm it turns the way you expect. Flip the direction toggle if not — this is cleaner than swapping phase wires.
+  </Step>
+  <Step title="Finish and write">
+    The wizard writes the motor configuration to the Delta. Confirm the write succeeded in the status bar.
+  </Step>
+</Steps>
+
+<Note>
+  **Understand the sensorless trade-off.** Sensorless FOC has no position feedback at standstill and estimates rotor position from back-EMF. Below roughly 10% of max RPM the estimate degrades, so expect weak or rough startup torque and possible stutter on hard acceleration from a stop. For high-RPM applications — which is what this controller is built for — this is a non-issue once the motor is moving.
+
+  If your application needs strong torque from zero RPM, this controller is not the right fit.
+</Note>
+
+### Then run the input setup wizard
+
+Back on the **Welcome & Wizards** page, click **Setup Input** to configure your control source: PPM (RC receiver), ADC (throttle), UART, CAN, or ADC\+UART. Follow the calibration steps — for PPM, you'll move the stick through its full range so the tool can capture min, max, and center.
+
+### After the wizards
+
+Head to **Motor Settings → General** and sanity-check:
+
+| Setting | What to check |
+| --- | --- |
+| Motor current max / min | 70 A ceiling on the Delta, and only with continuous airflow. Use the lower of the Delta's rating and your motor's rating. Without forced airflow, set this well below 70 A. |
+| Absolute maximum current | The hard fault threshold. Keep it above your working max but inside the hardware limit. |
+| Battery current max / min | Set regen (min) to what your pack can actually absorb. Excess regen drives the bus toward the 93 V ceiling. |
+| Voltage cutoff start / end | Confirm the S count matches your actual pack. A wrong S count sets the low-voltage cutoff incorrectly and will over-discharge the pack. On higher-voltage packs, also check the bus under hard braking. |
+| Temperature limits | Controller cutoff start/end. These are your thermal safety net for the 70 A rating — set them conservatively rather than at the maximum. |
+| Max ERPM | Leave headroom below what your motor can mechanically handle. |
+| Zero vector frequency (FOC → Advanced) | Set to 30–60 kHz for the Delta. |
+
+Write the configuration, then open **Realtime Data** and run the motor up gently while watching current, duty cycle, and temperature. Check the **Fault** field — it should stay clear.
+
+<Tip>
+  Save a backup of your working configuration via **XML → Save Motor Configuration**.
+</Tip>
+
+## 7. Troubleshooting
+
+| Symptom | Check |
+| --- | --- |
+| No serial port in VESC Tool | DC power applied? Data cable? Using A-to-C, not C-to-C? |
+| Connects, then drops | Cable quality; USB hub power; ground loops if multiple devices share the DC bus. |
+| Detection fails, no values | Motor unloaded and free to spin? All three phases connected? Supply current limit too low? |
+| Detection reports zero or negative L | Very low motor inductance. Retry detection at lower voltage, or enter known motor parameters manually. |
+| Over-voltage fault during detection | Bench supply can't sink regen current — use a battery or a bleed resistor. |
+| Motor stutters at low RPM | Partly expected for sensorless FOC. Try lowering the FOC resistance parameter — see below. |
+| Motor spins the wrong way | Flip direction in Motor Settings; don't swap phase wires. |
+
+### Low-RPM stutter: lowering FOC resistance
+
+Detection usually reports R **high**, because it includes cable, connector, and switch resistance on top of the winding itself. The sensorless observer leans heavily on R at low RPM, so an inflated value degrades position tracking exactly where it is already weakest.
+
+To try it: in **Motor Settings → FOC → General**, set **Motor Resistance** to half the detected value and re-test low-speed behavior. Half is the usual starting point; adjust from there if needed.
+
+<Warning>
+  Before committing to a reduced value:
+
+  - **Re-test under load**, not just free-spinning. A value that smooths low-RPM stutter unloaded can misbehave when torque is applied.
+  - **Re-test at operating temperature.** Winding resistance rises as the motor heats, so a value tuned cold moves further from actual R once hot.
+  - **Watch for new instability** at higher RPM or during hard acceleration. If it appears, you have gone too far — go back up.
+  - **Note the detected value** before changing it so you can return to it.
+</Warning>
+
+If reducing R does not resolve it, the startup parameters on the **FOC → Sensorless** tab — openloop ERPM, openloop hysteresis, and openloop time — are the next place to look.
+
+## 8. Support
+
+<CardGroup cols={2}>
+  <Card title="Contact Intrusive Robotics" icon="envelope" href="mailto:info@intrusiverobotics.com">
+    [info@intrusiverobotics.com](mailto:info@intrusiverobotics.com)
+  </Card>
+
+  <Card title="Firmware reference" icon="code" href="/reference/architecture">
+    How the Delta firmware is put together.
+  </Card>
+
+  <Card title="VESC Project documentation" icon="book" href="https://vesc-project.com/documentation">
+    Upstream reference for VESC Tool and firmware.
+  </Card>
+
+  <Card title="VESC Project forums" icon="comments" href="https://vesc-project.com/forum">
+    Community troubleshooting and discussion.
+  </Card>
+</CardGroup>
