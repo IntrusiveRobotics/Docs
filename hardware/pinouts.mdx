@@ -19,7 +19,7 @@ keywords:
 Connector and pad reference for the Delta GaN ESC. All four interfaces — servo/PPM, CAN, UART, and USB-C — sit on the same edge of the board.
 
 <Warning>
-  **Check the pin order against the board before wiring.** Signal order reverses depending on which side you are looking from — see [reading the pin order](#reading-the-pin-order) below. Confirm against the silkscreen with the board in front of you.
+  **Check the pin order against the board before wiring.** Signal order reverses depending on which side you view the connector from — match the sequence to the matching view below, and confirm against the silkscreen with the board in front of you.
 </Warning>
 
 ## Board views
@@ -36,21 +36,11 @@ Connector and pad reference for the Delta GaN ESC. All four interfaces — servo
   <img src="/images/delta-pinout-bottom.png" alt="Delta GaN ESC MCU side showing CAN and servo connectors, motor phase pads, VIN+ and GND" />
 </Frame>
 
-## Reading the pin order
-
-Each connector is listed twice below — once as seen from the **connector face**, and once as seen from the **board side** the connector is accessible from. The two are the same physical connector read in opposite directions.
-
-<Warning>
-  The two reference views **number pins from opposite ends**. Rather than trust an absolute "pin 1", identify the connector's orientation on your board and match the *signal sequence* to the corresponding view below.
-
-  The reliable landmark: on both the CAN and UART connectors, **GND sits at one end and the 3.3 V or NC pin at the other.**
-</Warning>
-
 ## Signal connectors
 
 ### Servo / PPM
 
-2-pin JST-SH 1.0. Accessible from the **MCU side**. This is the PPM input configured in [input configuration](/guides/input-configuration).
+2-pin JST-SH 1.0. This is the PPM input configured in [input configuration](/guides/input-configuration).
 
 | View | Direction | Order |
 | --- | --- | --- |
@@ -59,7 +49,7 @@ Each connector is listed twice below — once as seen from the **connector face*
 
 ### CAN
 
-4-pin JST-SH 1.0. Accessible from the **MCU side**. Used for [UAVCAN / DroneCAN](/guides/uavcan) and VESC-native CAN.
+4-pin JST-SH 1.0. Used for [UAVCAN / DroneCAN](/guides/uavcan) and VESC-native CAN.
 
 | View | Direction | Order |
 | --- | --- | --- |
@@ -80,7 +70,7 @@ Each connector is listed twice below — once as seen from the **connector face*
 
 ### UART
 
-4-pin, **3.3 V logic**. Accessible from the **component side**.
+4-pin, **3.3 V logic**.
 
 | View | Direction | Order |
 | --- | --- | --- |
@@ -99,7 +89,7 @@ Each connector is listed twice below — once as seen from the **connector face*
 
 ### USB-C
 
-Configuration, telemetry, and firmware update. Accessible from the **component side**.
+Configuration, telemetry, and firmware update.
 
 <Warning>
   **USB is data only — the Delta is not powered over USB.** It will not boot or enumerate until DC power is applied to the main terminals. Use a USB A → USB C cable. See the [quickstart](/guides/quickstart).
