@@ -38,52 +38,6 @@
   "navigation": {
     "tabs": [
       {
-        "tab": "Guides",
-        "icon": "book-open",
-        "groups": [
-          {
-            "group": "Get started",
-            "pages": [
-              "index",
-              "guides/quickstart",
-              "guides/firmware-versioning"
-            ]
-          },
-          {
-            "group": "Hardware",
-            "icon": "microchip",
-            "pages": [
-              "hardware/overview",
-              "hardware/power-stage",
-              "hardware/current-sensing",
-              "hardware/flash-layout"
-            ]
-          },
-          {
-            "group": "Build and flash",
-            "icon": "screwdriver-wrench",
-            "pages": [
-              "build/toolchain",
-              "build/building",
-              "build/flashing",
-              "build/bootloader",
-              "build/troubleshooting"
-            ]
-          },
-          {
-            "group": "Configuration",
-            "icon": "sliders",
-            "pages": [
-              "configuration/vesc-tool",
-              "configuration/motor-detection",
-              "configuration/foc-tuning",
-              "configuration/limits-and-faults",
-              "configuration/board-config"
-            ]
-          }
-        ]
-      },
-      {
         "tab": "Firmware reference",
         "icon": "code",
         "groups": [
@@ -166,6 +120,62 @@
               "legal/license",
               "legal/provenance",
               "legal/trademarks"
+            ]
+          }
+        ]
+      },
+      {
+        "tab": "Products",
+        "products": [
+          {
+            "product": "Delta",
+            "tabs": [
+              {
+                "tab": "Guides",
+                "icon": "book-open",
+                "groups": [
+                  {
+                    "group": "Get started",
+                    "pages": [
+                      "index",
+                      "guides/quickstart",
+                      "guides/firmware-versioning"
+                    ]
+                  },
+                  {
+                    "group": "Hardware",
+                    "icon": "microchip",
+                    "pages": [
+                      "hardware/overview",
+                      "hardware/power-stage",
+                      "hardware/current-sensing",
+                      "hardware/flash-layout"
+                    ]
+                  },
+                  {
+                    "group": "Build and flash",
+                    "icon": "screwdriver-wrench",
+                    "pages": [
+                      "build/toolchain",
+                      "build/building",
+                      "build/flashing",
+                      "build/bootloader",
+                      "build/troubleshooting"
+                    ]
+                  },
+                  {
+                    "group": "Configuration",
+                    "icon": "sliders",
+                    "pages": [
+                      "configuration/vesc-tool",
+                      "configuration/motor-detection",
+                      "configuration/foc-tuning",
+                      "configuration/limits-and-faults",
+                      "configuration/board-config"
+                    ]
+                  }
+                ]
+              }
             ]
           }
         ]
