@@ -48,6 +48,7 @@
           "guides/quickstart",
           "guides/motor-tuning",
           "guides/input-configuration",
+          "hardware/pinouts",
           {
             "group": "Legal",
             "icon": "scale-balanced",
