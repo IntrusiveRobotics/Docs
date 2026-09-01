@@ -62,12 +62,6 @@ Connector and pad reference for the Delta GaN ESC. All four interfaces — servo
   This is the recommended way to connect the Delta to a CAN bus. The 3.3 V pin is not intended to power external devices — see [auxiliary power](#auxiliary-power) — and connecting it to a device that supplies its own rail ties two supplies together.
 </Warning>
 
-<Note>
-  The CAN connector carries **3.3 V**, not 5 V, on that fourth pin.
-
-  Bus termination is not documented. A CAN bus needs 120 Ω at each physical end; confirm whether the Delta provides it before relying on it.
-</Note>
-
 ### UART
 
 4-pin, **3.3 V logic**.
