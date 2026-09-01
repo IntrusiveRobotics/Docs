@@ -15,7 +15,7 @@
   "logo": {
     "light": "/images/ir-logo-lockup-v4.png",
     "dark": "/images/ir-logo-lockup-v4.png",
-    "href": "/"
+    "href": "https://docs.intrusiverobotics.com"
   },
   "appearance": {
     "default": "dark"
@@ -39,7 +39,8 @@
     "type": "info"
   },
   "navigation": {
-    "groups": [
+    "pages": [
+      "index",
       {
         "group": "Delta GaN ESC",
         "icon": "microchip",
@@ -47,13 +48,13 @@
           "guides/quickstart",
           {
             "group": "Architecture",
+            "icon": "sitemap",
             "pages": [
               "reference/architecture",
               "reference/boot-and-startup",
               "reference/hardware-abstraction",
               "reference/configuration-storage"
-            ],
-            "icon": "sitemap"
+            ]
           },
           {
             "group": "Motor control",
