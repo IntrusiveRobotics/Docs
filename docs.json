@@ -57,7 +57,7 @@
               "firmware/experimental"
             ]
           },
-          "hardware/pinouts",
+          "hardware/overview",
           {
             "group": "Legal",
             "icon": "scale-balanced",
@@ -110,41 +110,12 @@
             "href": "/guides/input-configuration"
           },
           {
-            "label": "Hardware pinouts",
-            "href": "/hardware/pinouts"
-          },
-          {
-            "label": "Motor tuning",
-            "href": "/guides/motor-tuning"
-          },
-          {
-            "label": "Input configuration",
-            "href": "/guides/input-configuration"
+            "label": "Hardware overview",
+            "href": "/hardware/overview"
           },
           {
             "label": "UAVCAN / DroneCAN",
             "href": "/guides/uavcan"
-          },
-          {
-            "label": "Hardware pinouts",
-            "href": "/hardware/pinouts"
-          }
-        ]
-      },
-      {
-        "header": "Firmware",
-        "items": [
-          {
-            "label": "Upgrading",
-            "href": "/firmware/upgrading"
-          },
-          {
-            "label": "Experimental",
-            "href": "/firmware/experimental"
-          },
-          {
-            "label": "Latest release",
-            "href": "https://github.com/IntrusiveRobotics/Delta/releases/latest"
           }
         ]
       },
@@ -168,9 +139,18 @@
       {
         "header": "Legal",
         "items": [
-          { "label": "GPL v3.0", "href": "/legal/license" },
-          { "label": "Provenance", "href": "/legal/provenance" },
-          { "label": "Trademarks", "href": "/legal/trademarks" }
+          {
+            "label": "GPL v3.0",
+            "href": "/legal/license"
+          },
+          {
+            "label": "Provenance",
+            "href": "/legal/provenance"
+          },
+          {
+            "label": "Trademarks",
+            "href": "/legal/trademarks"
+          }
         ]
       }
     ]
@@ -179,7 +159,12 @@
     "prompt": "Search the documentation"
   },
   "contextual": {
-    "options": ["copy", "view", "claude", "chatgpt"],
+    "options": [
+      "copy",
+      "view",
+      "claude",
+      "chatgpt"
+    ],
     "display": "header"
   },
   "metadata": {
@@ -193,5 +178,12 @@
     "vescBase": "6.05",
     "mcu": "STM32F405RGT6",
     "buildTarget": "fw_vesc_gan"
-  }
+  },
+  "redirects": [
+    {
+      "source": "/hardware/pinouts",
+      "destination": "/hardware/overview",
+      "permanent": true
+    }
+  ]
 }
