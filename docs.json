@@ -95,44 +95,32 @@
     },
     "links": [
       {
-        "header": "Delta GaN ESC",
+        "header": "Documentation",
         "items": [
           {
             "label": "Quickstart",
             "href": "/guides/quickstart"
           },
           {
-            "label": "Motor tuning",
-            "href": "/guides/motor-tuning"
+            "label": "Building",
+            "href": "/build/building"
           },
           {
-            "label": "Input configuration",
-            "href": "/guides/input-configuration"
-          },
-          {
-            "label": "Hardware overview",
-            "href": "/hardware/overview"
-          },
-          {
-            "label": "UAVCAN / DroneCAN",
-            "href": "/guides/uavcan"
+            "label": "Flashing",
+            "href": "/build/flashing"
           }
         ]
       },
       {
-        "header": "Firmware",
+        "header": "Project",
         "items": [
           {
-            "label": "Upgrading",
-            "href": "/firmware/upgrading"
+            "label": "Source",
+            "href": "https://github.com/IntrusiveRobotics/Delta"
           },
           {
-            "label": "Experimental",
-            "href": "/firmware/experimental"
-          },
-          {
-            "label": "Latest release",
-            "href": "https://github.com/IntrusiveRobotics/Delta/releases/latest"
+            "label": "Releases",
+            "href": "https://github.com/IntrusiveRobotics/Delta/releases"
           }
         ]
       },
