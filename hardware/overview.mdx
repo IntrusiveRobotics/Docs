@@ -65,6 +65,14 @@ Hardware reference for the Delta GaN ESC — connectors, pads, power terminals, 
   This is the recommended way to connect the Delta to a CAN bus. The 3.3 V pin is not intended to power external devices — see [auxiliary power](#auxiliary-power) — and connecting it to a device that supplies its own rail ties two supplies together.
 </Warning>
 
+<Warning>
+  **Errata — early boards: CANH and CANL are mislabelled and swapped.**
+
+  On early versions of the board the CAN H and CAN L labels were transposed, so the pin marked CANH is actually CANL and vice versa. The pin order in the table above describes correctly labelled boards.
+
+  CAN is a differential pair and will not communicate with H and L reversed. If a node never appears on the bus and wiring, bitrate and termination all check out, swap the two lines and retry before looking any further.
+</Warning>
+
 ### UART
 
 4-pin, **3.3 V logic**.
