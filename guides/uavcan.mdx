@@ -151,7 +151,7 @@ These can be read and written with any UAVCAN parameter tool, without connecting
 
 | Symptom | Check |
 | --- | --- |
-| Node does not appear on the bus | CAN Mode set to `UAVCAN` and written? Baud rate matching? CAN H/L not swapped? Bus terminated? |
+| Node does not appear on the bus | CAN Mode set to `UAVCAN` and written? Baud rate matching? CAN H/L not swapped? Bus terminated? On early boards the CANH/CANL labels are transposed — see [hardware overview](/hardware/overview#can). |
 | Two nodes conflict or drop out | Duplicate Controller ID. Each node needs a unique ID. |
 | Wrong motor responds | ESC index does not match the flight controller's motor ordering. |
 | No response to throttle, node visible | ESC index higher than the length of the command array the flight controller sends. |
