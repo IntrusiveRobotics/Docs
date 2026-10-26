@@ -102,12 +102,6 @@ The core limits. Work through all of them — the wizard seeds them from a size 
 
 The Delta runs sensorless FOC only. There is no encoder input on this hardware, so rotor position is estimated from back-EMF.
 
-<Note>
-  Below roughly **10% of max RPM** the estimate degrades. Expect weak or rough startup torque and possible stutter on hard acceleration from a stop. Once the motor is moving this is a non-issue — which is what this controller is built for.
-
-  If your application needs strong torque from zero RPM, this is the wrong controller for it.
-</Note>
-
 ### Lowering FOC resistance to reduce low-RPM stutter
 
 Detection usually reports R high, because it includes cable, connector, and switch resistance on top of the winding itself. The sensorless observer leans heavily on R at low RPM, so an inflated value degrades position tracking exactly where it is already weakest.
